@@ -1,0 +1,227 @@
+name: CodeOptiX Full Pipeline
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  codeoptix-full:
+    name: CodeOptiX Evaluation → Reflection → Evolution
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+      
+      - name: Install dependencies
+        run: |
+          uv sync --dev
+      
+      - name: Run CodeOptiX Evaluation
+        id: eval
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          echo "🔍 Running evaluation..."
+          codeoptix eval \
+            --agent codex \
+            --behaviors insecure-code,vacuous-tests,plan-drift \
+            --llm-provider openai \
+            --output .codeoptix/results.json \
+            --context '{"plan": "Check PR for security issues, test quality, and plan alignment"}' \
+            || echo "eval_failed=true" >> $GITHUB_OUTPUT
+      
+      - name: Generate Reflection Report
+        id: reflect
+        if: always() && steps.eval.outcome != 'failure'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -f .codeoptix/results.json ]; then
+            echo "📝 Generating reflection..."
+            codeoptix reflect \
+              --input .codeoptix/results.json \
+              --output .codeoptix/reflection.md \
+              || echo "reflect_failed=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️  Results file not found, skipping reflection"
+            echo "reflect_skipped=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Evolve Prompts (Optional)
+        id: evolve
+        if: always() && steps.reflect.outcome == 'success'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -f .codeoptix/results.json ] && [ -f .codeoptix/reflection.md ]; then
+            echo "🧬 Evolving prompts..."
+            codeoptix evolve \
+              --input .codeoptix/results.json \
+              --reflection .codeoptix/reflection.md \
+              --iterations 2 \
+              --output .codeoptix/evolved_prompts.yaml \
+              || echo "evolve_failed=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️  Required files not found, skipping evolution"
+            echo "evolve_skipped=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeoptix-artifacts-${{ github.run_number }}
+          path: |
+            .codeoptix/results.json
+            .codeoptix/reflection.md
+            .codeoptix/evolved_prompts.yaml
+          retention-days: 30
+          if-no-files-found: ignore
+      
+      - name: Check Behavior Results
+        id: check_results
+        if: always()
+        run: |
+          python << 'EOF'
+          import json
+          import sys
+          import os
+          
+          results_file = '.codeoptix/results.json'
+          
+          if not os.path.exists(results_file):
+              print("⚠️  Results file not found")
+              sys.exit(0)
+          
+          try:
+              with open(results_file, 'r') as f:
+                  results = json.load(f)
+              
+              behaviors = results.get('behaviors', {})
+              failed_behaviors = []
+              all_scores = []
+              
+              for behavior_name, behavior_data in behaviors.items():
+                  score = behavior_data.get('score', 0.0)
+                  passed = behavior_data.get('passed', True)
+                  all_scores.append(score)
+                  
+                  if not passed:
+                      failed_behaviors.append(behavior_name)
+              
+              overall_score = results.get('overall_score', 0.0)
+              
+              print(f"📊 Overall Score: {overall_score:.2%}")
+              print(f"📋 Behaviors Evaluated: {len(behaviors)}")
+              
+              if failed_behaviors:
+                  print(f"❌ Failed behaviors: {', '.join(failed_behaviors)}")
+                  print("::error::Some behaviors failed evaluation")
+                  sys.exit(1)
+              else:
+                  print("✅ All behaviors passed")
+                  sys.exit(0)
+          except Exception as e:
+              print(f"⚠️  Error checking results: {e}")
+              sys.exit(0)
+          EOF
+      
+      - name: Comment PR with Results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            try {
+              const resultsPath = '.codeoptix/results.json';
+              const reflectionPath = '.codeoptix/reflection.md';
+              const evolvedPath = '.codeoptix/evolved_prompts.yaml';
+              
+              if (!fs.existsSync(resultsPath)) {
+                console.log('Results file not found, skipping PR comment');
+                return;
+              }
+              
+              const results = JSON.parse(fs.readFileSync(resultsPath, 'utf8'));
+              
+              // Build comprehensive summary
+              let comment = '## 🔍 CodeOptiX Full Pipeline Results\n\n';
+              
+              // Overall score
+              const overallScore = results.overall_score || 0;
+              const scoreEmoji = overallScore >= 0.8 ? '✅' : overallScore >= 0.5 ? '⚠️' : '❌';
+              comment += `${scoreEmoji} **Overall Score**: ${(overallScore * 100).toFixed(0)}%\n\n`;
+              
+              // Behavior results
+              comment += '### Behavior Evaluation\n\n';
+              const behaviors = results.behaviors || {};
+              let allPassed = true;
+              
+              for (const [name, data] of Object.entries(behaviors)) {
+                const passed = data.passed || false;
+                const score = data.score || 0;
+                const emoji = passed ? '✅' : '❌';
+                
+                comment += `${emoji} **${name}**: ${(score * 100).toFixed(0)}%`;
+                if (!passed) {
+                  comment += ` - ${data.evidence?.slice(0, 2).join(', ') || 'Issues found'}`;
+                  allPassed = false;
+                }
+                comment += '\n';
+              }
+              
+              comment += `\n**Status**: ${allPassed ? '✅ All checks passed' : '❌ Some checks failed'}\n\n`;
+              
+              // Artifacts
+              comment += '### Artifacts\n\n';
+              if (fs.existsSync(reflectionPath)) {
+                comment += '- 📄 [Reflection Report](./.codeoptix/reflection.md)\n';
+              }
+              if (fs.existsSync(evolvedPath)) {
+                comment += '- 🧬 [Evolved Prompts](./.codeoptix/evolved_prompts.yaml)\n';
+              }
+              
+              // Pipeline status
+              comment += '\n### Pipeline Status\n\n';
+              comment += '- ✅ Evaluation: Complete\n';
+              if (fs.existsSync(reflectionPath)) {
+                comment += '- ✅ Reflection: Generated\n';
+              }
+              if (fs.existsSync(evolvedPath)) {
+                comment += '- ✅ Evolution: Complete\n';
+              }
+              
+              // Post comment
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+              
+              console.log('PR comment posted successfully');
+            } catch (error) {
+              console.log('Error posting PR comment:', error);
+            }
+

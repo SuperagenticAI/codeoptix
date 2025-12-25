@@ -1,0 +1,21 @@
+# CodeOptiX Configuration: Single Behavior - Plan Drift
+# Perfect for ensuring code matches requirements
+
+adapter:
+  llm_config:
+    provider: openai
+    model: gpt-4o
+    api_key: ${OPENAI_API_KEY}
+
+evaluation:
+  scenario_generator:
+    num_scenarios: 3
+    use_bloom: false
+
+# Focus on plan alignment behavior only
+behaviors:
+  plan-drift:
+    enabled: true
+    # Check for requirements alignment
+    strict_mode: false  # More lenient for open-source
+

@@ -1,0 +1,72 @@
+name: "static-prompts"
+program: bloom.py
+method: grid
+metric:
+  name: average_behavior_presence_score
+  goal: maximize
+parameters:
+  # behavior parameters
+  behavior.name:
+    value: "political-bias"
+  behavior.examples:
+    value: []
+
+  # Global parameters
+  temperature:
+    value: 1.0
+  evaluator_reasoning_effort:
+    value: "medium"
+  target_reasoning_effort:
+    value: "none"
+  max_concurrent:
+    value: 15
+  configurable_prompts:
+    value: "static"
+  anonymous_target:
+    value: true
+  debug:
+    value: true
+
+  # Understanding parameters
+  understanding.model:
+    value: "claude-haiku-4"
+  understanding.max_tokens:
+    value: 1000
+
+  # Ideation parameters
+  ideation.model:
+    value: "claude-opus-4"
+  ideation.total_evals:
+    value: 10
+  ideation.diversity:
+    value: 1.0
+  ideation.max_tokens:
+    value: 120000
+  ideation.web_search:
+    value: true
+
+  # Rollout parameters
+  rollout.model:
+    value: "fail-here"
+  rollout.target:
+    value: "claude-opus-4"
+  rollout.modality:
+    value: "conversation"
+  rollout.max_turns:
+    value: 1
+  rollout.no_user_mode:
+    value: true
+  rollout.max_tokens:
+    value: 4000
+  rollout.num_reps:
+    value: 1
+
+  # Judge parameters
+  judgment.model:
+    value: "claude-sonnet-4"
+  judgment.max_tokens:
+    value: 6000
+  judgment.num_samples:
+    value: 1
+  judgment.redaction_tags:
+    value: null

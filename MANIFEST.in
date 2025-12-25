@@ -1,0 +1,7 @@
+# Include package data
+include README.md
+include LICENSE
+include pyproject.toml
+recursive-include src/codeoptix/vendor *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

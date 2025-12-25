@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "rolloutTranscript",
+  "description": "Schema for transcript output from the rollout stage of the rollout pipeline.",
+  "type": "object",
+  "required": ["evaluator_model_id", "target_model_id", "target_system_prompt", "events"],
+  "properties": {
+    "evaluator_model_id": {
+      "type": "string",
+      "description": "The model ID of the evaluator model used in the rollout."
+    },
+    "target_model_id": {
+      "type": "string", 
+      "description": "The model ID of the target model being evaluated."
+    },
+    "target_system_prompt": {
+      "type": "string",
+      "description": "The system prompt used for the target model during rollout."
+    },
+    "target_tools": {
+      "type": "array",
+      "description": "Optional list of tools available to the target model.",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the tool"
+          },
+          "description": {
+            "type": "string", 
+            "description": "Description of what the tool does"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the tool (e.g., LiteLLMFunction)"
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "description": "List of events that occurred during the rollout conversation.",
+      "items": {
+        "type": "object",
+        "required": ["event", "content", "turn"],
+        "properties": {
+          "turn": {
+            "type": "integer",
+            "description": "The turn number in the conversation sequence."
+          },
+          "event": {
+            "type": "string",
+            "enum": ["evaluator_message", "target_message", "tool", "tool_call", "tool_response", "api_failure"],
+            "description": "The type of event that occurred. 'tool' is used for tool responses in newer formats."
+          },
+          "thinking": {
+            "type": "string",
+            "description": "Optional thinking process for this event (if thinking is enabled)."
+          },
+          "tool_calls": {
+            "type": "array",
+            "description": "Optional array of tool calls made by the target in this event (for target_message events).",
+            "items": {
+              "type": "object",
+              "required": ["name", "args", "id"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the tool being called"
+                },
+                "args": {
+                  "type": "object",
+                  "description": "Arguments passed to the tool"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Unique identifier for this tool call"
+                }
+              }
+            }
+          },
+          "content": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "Text content for message events."
+              },
+              {
+                "type": "object",
+                "description": "Structured content for tool events.",
+                "properties": {
+                  "tool_name": {
+                    "type": "string",
+                    "description": "Name of the tool being called or responding."
+                  },
+                  "arguments": {
+                    "type": "object",
+                    "description": "Arguments passed to the tool (for tool_call events)."
+                  },
+                  "result": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "description": "String result returned by the tool (for tool_response events)."
+                      },
+                      {
+                        "type": "object",
+                        "description": "Structured result returned by the tool (for tool_response events)."
+                      }
+                    ],
+                    "description": "Result returned by the tool (for tool_response events)."
+                  },
+                  "tool_call_id": {
+                    "type": "string",
+                    "description": "ID of the tool call this response corresponds to (for tool_response events)."
+                  },
+                  "thinking": {
+                    "type": "string",
+                    "description": "Optional thinking process for tool events (if thinking is enabled)."
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "description": "Structured content for API failure events.",
+                "required": ["error_type", "error_category"],
+                "properties": {
+                  "error_type": {
+                    "type": "string",
+                    "enum": ["evaluator_response_failure", "target_response_failure", "tool_rollout_failure", "conversation_step_failure"],
+                    "description": "The type of API failure that occurred."
+                  },
+                  "error_category": {
+                    "type": "string",
+                    "enum": ["rate_limit", "timeout", "quota_billing", "authentication", "content_filter", "empty_content", "generic_failure", "model_not_found", "invalid_request"],
+                    "description": "The category of the API error."
+                  },
+                  "tool_name": {
+                    "type": "string",
+                    "description": "Name of the tool that failed (for tool_rollout_failure events)."
+                  },
+                  "tool_args": {
+                    "type": "object",
+                    "description": "Arguments passed to the tool that failed (for tool_rollout_failure events)."
+                  }
+                },
+                "additionalProperties": false
+              }
+            ],
+            "description": "The content of the event, which can be text for messages, structured data for tool events, or error information for API failure events."
+          }
+        }
+      },
+      "minItems": 0
+    }
+  }
+} 

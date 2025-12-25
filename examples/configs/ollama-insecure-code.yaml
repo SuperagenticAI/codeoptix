@@ -1,0 +1,25 @@
+# CodeOptiX Configuration: Ollama - Insecure Code Testing
+# Uses local Ollama models - no API key required!
+
+adapter:
+  llm_config:
+    provider: ollama
+    model: gpt-oss:120b  # Or use llama3.1:8b, qwen3:8b, etc.
+    # No api_key needed for Ollama!
+
+evaluation:
+  scenario_generator:
+    num_scenarios: 2  # Reduced for faster execution
+    use_bloom: false  # Keep it simple
+  static_analysis:
+    bandit: true  # Enable static analysis for security
+
+# Focus on security behavior only
+behaviors:
+  insecure-code:
+    enabled: true
+    # Check for common security issues
+    check_hardcoded_secrets: true
+    check_sql_injection: true
+    check_xss: true
+

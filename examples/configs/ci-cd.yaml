@@ -1,0 +1,25 @@
+# CodeOptiX Configuration: CI/CD Mode
+# Optimized for GitHub Actions and CI pipelines
+
+adapter:
+  llm_config:
+    provider: openai
+    model: gpt-4o
+    api_key: ${OPENAI_API_KEY}
+
+evaluation:
+  scenario_generator:
+    num_scenarios: 2  # Reduced for faster CI runs
+    use_bloom: false  # Disable for speed
+  static_analysis:
+    bandit: true  # Enable for security checks
+
+# Single behavior for CI/CD (most common: security)
+behaviors:
+  insecure-code:
+    enabled: true
+
+# Evolution disabled for CI/CD (too slow)
+evolution:
+  enabled: false
+

@@ -1,0 +1,25 @@
+# CodeOptiX Configuration: Single Behavior - Insecure Code
+# Perfect for open-source users who want to check for security issues
+
+adapter:
+  llm_config:
+    provider: openai
+    model: gpt-4o
+    api_key: ${OPENAI_API_KEY}
+
+evaluation:
+  scenario_generator:
+    num_scenarios: 3
+    use_bloom: false  # Keep it simple for open-source
+  static_analysis:
+    bandit: true  # Enable static analysis for security
+
+# Focus on security behavior only
+behaviors:
+  insecure-code:
+    enabled: true
+    # Check for common security issues
+    check_hardcoded_secrets: true
+    check_sql_injection: true
+    check_xss: true
+

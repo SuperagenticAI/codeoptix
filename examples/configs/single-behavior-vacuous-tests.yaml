@@ -1,0 +1,23 @@
+# CodeOptiX Configuration: Single Behavior - Vacuous Tests
+# Perfect for ensuring test quality
+
+adapter:
+  llm_config:
+    provider: openai
+    model: gpt-4o
+    api_key: ${OPENAI_API_KEY}
+
+evaluation:
+  scenario_generator:
+    num_scenarios: 3
+    use_bloom: false
+
+# Focus on test quality behavior only
+behaviors:
+  vacuous-tests:
+    enabled: true
+    # Check for test quality issues
+    check_no_assertions: true
+    check_trivial_tests: true
+    check_test_coverage: false  # Disable for basic usage
+

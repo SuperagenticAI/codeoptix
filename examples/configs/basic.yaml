@@ -1,0 +1,23 @@
+# CodeOptiX Basic Configuration
+# This is a minimal configuration for getting started with a single behavior
+
+adapter:
+  llm_config:
+    provider: openai
+    model: gpt-4o
+    api_key: ${OPENAI_API_KEY}  # Set this environment variable
+
+evaluation:
+  scenario_generator:
+    num_scenarios: 2  # Reduced for faster execution
+    use_bloom: false  # Disable Bloom for simplicity
+  static_analysis:
+    bandit: false  # Disable for basic usage
+
+#
+# Single behavior configuration (security)
+behaviors:
+  insecure-code:
+    enabled: true
+
+

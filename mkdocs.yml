@@ -1,0 +1,111 @@
+site_name: CodeOptiX Documentation
+site_description: Behavioral optimization engine for coding agents
+site_author: Superagentic AI
+site_url: https://superagenticai.github.io/codeoptix
+
+repo_name: SuperagenticAI/codeoptix
+repo_url: https://github.com/SuperagenticAI/codeoptix
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+  logo: assets/CodeOptiX_Logo.png
+  favicon: assets/CodeOptiX_Fav.png
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      use_pygments: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+extra_css:
+  - stylesheets/extra.css
+  - stylesheets/gradients.css
+  - stylesheets/syntax.css
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Single Behavior Quickstart: getting-started/single-behavior-quickstart.md
+    - Your First Evaluation: getting-started/first-evaluation.md
+  - Core Concepts:
+    - Overview: concepts/overview.md
+    - Agent Adapters: concepts/adapters.md
+    - Behavior Specifications: concepts/behaviors.md
+    - Evaluation Engine: concepts/evaluation.md
+    - Reflection Engine: concepts/reflection.md
+    - Evolution Engine: concepts/evolution.md
+    - ACP Integration: concepts/acp.md
+  - Guides:
+    - Python API: guides/python-api.md
+    - CLI Usage: guides/cli-usage.md
+    - Configuration: guides/configuration.md
+    - GitHub Actions: guides/github-actions.md
+    - ACP Integration: guides/acp-integration.md
+    - Custom Behaviors: guides/custom-behaviors.md
+    - Ollama Integration: guides/ollama-integration.md
+  - Advanced:
+    - GEPA Integration: advanced/gepa.md
+    - Bloom Integration: advanced/bloom.md
+    - Error Handling: advanced/error-handling.md
+  - API Reference: api-reference.md
+  - Examples:
+    - Behavioral Spec Example: examples/behavioral-spec.md
+    - GEPA Demonstration: examples/gepa-demo.md
+    - Basic Adapter Usage: examples/adapter-usage.md
+  - Contributing: contributing.md
+

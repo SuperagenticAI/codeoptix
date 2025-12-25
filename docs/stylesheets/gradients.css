@@ -1,0 +1,126 @@
+/* Gradient Text Styles for Headings */
+
+/* H1 Gradient */
+.md-typeset h1 {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h1 {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* H2 Gradient */
+.md-typeset h2 {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 50%, var(--gradient-alt-start) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(90deg, var(--gradient-start), var(--gradient-end)) 1;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h2 {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-image: linear-gradient(90deg, #818cf8, #a78bfa) 1;
+}
+
+/* H3 Gradient */
+.md-typeset h3 {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h3 {
+  background: linear-gradient(135deg, #a78bfa 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* H4 with subtle gradient */
+.md-typeset h4 {
+  color: var(--gradient-start);
+  font-weight: 600;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h4 {
+  color: #a78bfa;
+}
+
+/* Hero section gradient */
+.hero-gradient {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 50%, var(--gradient-alt-start) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+[data-md-color-scheme="slate"] .hero-gradient {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient badges */
+.gradient-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0.25rem;
+}
+
+/* Gradient buttons */
+.gradient-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gradient-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  color: white;
+}
+
+/* Section dividers with gradient */
+.gradient-divider {
+  height: 3px;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-alt-start));
+  border: none;
+  margin: 2rem 0;
+  border-radius: 2px;
+}
+
