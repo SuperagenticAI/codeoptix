@@ -437,7 +437,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## 📞 Support
 
-- 📖 [Documentation](https://codeoptix.ai/docs)
+- 📖 [Documentation](TBC)
 - 💬 [Discussions](https://github.com/SuperagenticAI/codeoptix/discussions)
 - 🐛 [Issue Tracker](https://github.com/SuperagenticAI/codeoptix/issues)
 - 📧 Email: [codeoptix@super-agentic.ai](mailto:codeoptix@super-agentic.ai)
@@ -446,8 +446,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 <div align="center">
 
-**Made with ❤️ by [Superagentic AI](https://super-agentic.ai)**
+**Brought to you by 🤝 [Superagentic AI](https://super-agentic.ai)**
 
-[⭐ Star us on GitHub](https://github.com/SuperagenticAI/codeoptix) • [📖 Read the docs](https://codeoptix.ai/docs) • [💬 Join discussions](https://github.com/SuperagenticAI/codeoptix/discussions)
 
 </div>
