@@ -13,23 +13,21 @@ on:
       - 'docs/**'
       - 'mkdocs.yml'
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: 'Deploy to GitHub Pages'
-        required: false
-        default: 'false'
-        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build Documentation
+  deploy:
+    name: Deploy Documentation
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -47,27 +45,9 @@ jobs:
       - name: Build documentation
         run: uv run mkdocs build --strict
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site/
-
-  # Deploy job - only runs on main branch push or manual trigger with deploy=true
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: build
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy == true))
-    runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          cname: codeoptix.superagentic.ai
