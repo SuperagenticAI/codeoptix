@@ -25,7 +25,7 @@ class BasicAdapter(AgentAdapter):
             raise ValueError("BasicAdapter requires 'llm_config' in configuration")
 
         # Create LLM client
-        from codeoptix.utils.llm import create_llm_client, LLMProvider
+        from codeoptix.utils.llm import LLMProvider, create_llm_client
 
         provider_name = llm_config.get("provider", "ollama")
         self.llm_client: LLMClient = create_llm_client(
@@ -154,10 +154,10 @@ Brief explanation of your implementation.
             if line_lower.startswith("code:") or "```" in line_lower:
                 current_section = "code"
                 continue
-            elif line_lower.startswith("tests:") or line_lower.startswith("test:"):
+            if line_lower.startswith(("tests:", "test:")):
                 current_section = "tests"
                 continue
-            elif current_section == "code" and line.strip():
+            if current_section == "code" and line.strip():
                 # Remove markdown code blocks
                 if "```" in line:
                     continue

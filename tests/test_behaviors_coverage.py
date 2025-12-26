@@ -1,9 +1,8 @@
 """Test behaviors for coverage."""
 
-import pytest
 
-from codeoptix.behaviors import create_behavior
 from codeoptix.adapters import AgentOutput
+from codeoptix.behaviors import create_behavior
 
 
 class TestBehaviorsCoverage:

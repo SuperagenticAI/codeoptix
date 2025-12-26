@@ -70,7 +70,6 @@ docs = [
     "mkdocs-material>=9.4.0",
     "pymdown-extensions>=10.0.0",
     "mkdocs-minify-plugin>=0.7.0",
-    "hatchling",
 ]
 all = [
     "codeoptix[dev,testing,docs]",
@@ -84,8 +83,11 @@ accessibility = [
 codeoptix = "codeoptix.cli:main"
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.ruff]
 line-length = 100

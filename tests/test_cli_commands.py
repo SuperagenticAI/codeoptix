@@ -1,6 +1,5 @@
 """Test CLI commands for coverage."""
 
-import pytest
 from click.testing import CliRunner
 
 from codeoptix.cli import main

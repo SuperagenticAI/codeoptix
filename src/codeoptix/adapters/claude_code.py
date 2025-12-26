@@ -38,9 +38,12 @@ class ClaudeCodeAdapter(AgentAdapter):
         provider_name = llm_config.get("provider", "anthropic").upper()
         try:
             provider = LLMProvider[provider_name]
-        except KeyError:
-            # Fallback to ANTHROPIC if invalid provider
-            provider = LLMProvider.ANTHROPIC
+        except KeyError as e:
+            supported_providers = ", ".join([p.value for p in LLMProvider])
+            raise ValueError(
+                f"Invalid LLM provider '{provider_name}'. "
+                f"Supported providers: {supported_providers}"
+            ) from e
 
         # Get API key (not required for Ollama)
         api_key = None
