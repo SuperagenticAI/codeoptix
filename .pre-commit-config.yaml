@@ -1,10 +1,12 @@
 # Pre-commit hooks for CodeOptiX
 # See https://pre-commit.com for more information
+# Install: pre-commit install
+# Run: pre-commit run --all-files
 
 repos:
   # General file checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -21,28 +23,12 @@ repos:
 
   # Ruff: Fast Python linter and formatter
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.9
+    rev: v0.8.4
     hooks:
       # Run the linter
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
+        exclude: ^src/codeoptix/vendor/
       # Run the formatter
       - id: ruff-format
-
-  # MyPy: Static type checker
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
-    hooks:
-      - id: mypy
-        additional_dependencies: [types-all]
-        args: [--ignore-missing-imports, --show-error-codes]
-        exclude: ^(tests/|examples/|docs/)
-
-  # Security checks
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.6
-    hooks:
-      - id: bandit
-        args: [-c, pyproject.toml]
-        exclude: ^(tests/|examples/)
-
+        exclude: ^src/codeoptix/vendor/

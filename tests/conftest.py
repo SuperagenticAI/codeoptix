@@ -3,8 +3,7 @@
 import json
 import tempfile
 from pathlib import Path
-from typing import Any, Dict
-from unittest.mock import MagicMock
+from typing import Any
 
 import pytest
 
@@ -14,68 +13,70 @@ from codeoptix.utils.llm import LLMClient
 
 class MockLLMClient(LLMClient):
     """Mock LLM client for testing."""
-    
-    def __init__(self, responses: Dict[str, str] = None):
+
+    def __init__(self, responses: dict[str, str] = None):
         """Initialize mock LLM client with predefined responses."""
         self.responses = responses or {}
         self.call_history = []
         self.config = {"model": "gpt-4o"}
-    
+
+    def get_available_models(self) -> list[str]:
+        """Return list of available models."""
+        return ["gpt-5.2", "claude-opus-4-5-20251101", "gemini-3-pro"]
+
     def chat_completion(
-        self,
-        messages: list,
-        model: str = "gpt-4o",
-        temperature: float = 0.7,
-        **kwargs
+        self, messages: list, model: str = "gpt-4o", temperature: float = 0.7, **kwargs
     ) -> str:
         """Return mock response based on prompt content."""
         prompt = messages[-1]["content"] if messages else ""
-        self.call_history.append({
-            "messages": messages,
-            "model": model,
-            "temperature": temperature,
-            **kwargs
-        })
-        
+        self.call_history.append(
+            {"messages": messages, "model": model, "temperature": temperature, **kwargs}
+        )
+
         # Return predefined response or default
         for key, response in self.responses.items():
             if key.lower() in prompt.lower():
                 return response
-        
+
         # Default responses based on prompt type
         if "scenario" in prompt.lower() or "generate" in prompt.lower():
-            return json.dumps([
-                {
-                    "task": "Test task",
-                    "prompt": "Write a test function",
-                    "expected_issues": ["test issue"]
-                }
-            ])
-        elif "evaluate" in prompt.lower() or "judge" in prompt.lower():
+            return json.dumps(
+                [
+                    {
+                        "task": "Test task",
+                        "prompt": "Write a test function",
+                        "expected_issues": ["test issue"],
+                    }
+                ]
+            )
+        if "evaluate" in prompt.lower() or "judge" in prompt.lower():
             return "The code looks good. Score: 0.8/1.0"
-        elif "reflect" in prompt.lower() or "analysis" in prompt.lower():
+        if "reflect" in prompt.lower() or "analysis" in prompt.lower():
             return "## Reflection\n\nThe code has some issues that need addressing."
-        elif "improve" in prompt.lower() or "propose" in prompt.lower():
+        if "improve" in prompt.lower() or "propose" in prompt.lower():
             return "Improved prompt: Write secure code without hardcoded secrets."
-        else:
-            return "Mock LLM response"
+        return "Mock LLM response"
 
 
 class MockAgentAdapter(AgentAdapter):
     """Mock agent adapter for testing."""
-    
-    def __init__(self, config: Dict[str, Any] = None, output: AgentOutput = None):
+
+    def __init__(self, config: dict[str, Any] = None, output: AgentOutput = None):
         """Initialize mock adapter with config and optional output."""
         super().__init__(config or {})
         self._output = output or AgentOutput(
             code="def test_function():\n    return 'test'",
             tests="def test_test_function():\n    assert test_function() == 'test'",
-            prompt_used="You are a helpful assistant."
+            prompt_used="You are a helpful assistant.",
         )
-        self._prompt = config.get("prompt", "You are a helpful assistant.") if config else "You are a helpful assistant."
+        self._prompt = (
+            config.get("prompt", "You are a helpful assistant.")
+            if config
+            else "You are a helpful assistant."
+        )
         self.execute_calls = []
-    
-    def execute(self, prompt: str, context: Dict[str, Any] = None) -> AgentOutput:
+
+    def execute(self, prompt: str, context: dict[str, Any] = None) -> AgentOutput:
         """Return mock output."""
         self.execute_calls.append({"prompt": prompt, "context": context})
         # Modify output based on prompt if needed
@@ -83,18 +84,18 @@ class MockAgentAdapter(AgentAdapter):
             code=self._output.code,
             tests=self._output.tests,
             prompt_used=self._prompt,
-            metadata={"mock": True}
+            metadata={"mock": True},
         )
         return output
-    
+
     def get_prompt(self) -> str:
         """Return current prompt."""
         return self._prompt
-    
+
     def update_prompt(self, new_prompt: str) -> None:
         """Update prompt."""
         self._prompt = new_prompt
-    
+
     def get_adapter_type(self) -> str:
         """Return adapter type."""
         return "mock-adapter"
@@ -119,7 +120,7 @@ def mock_adapter_with_insecure_code():
         output=AgentOutput(
             code='def connect_db():\n    password = "hardcoded_secret_123"\n    return password',
             tests="def test_connect_db():\n    assert True",
-            prompt_used="Write database connection code"
+            prompt_used="Write database connection code",
         )
     )
 
@@ -131,7 +132,7 @@ def mock_adapter_with_vacuous_tests():
         output=AgentOutput(
             code="def add(a, b):\n    return a + b",
             tests="def test_add():\n    pass  # No assertions",
-            prompt_used="Write a function and tests"
+            prompt_used="Write a function and tests",
         )
     )
 
@@ -165,10 +166,10 @@ def sample_evaluation_results():
                         "behavior_result": {
                             "passed": False,
                             "score": 0.5,
-                            "evidence": ["Hardcoded password"]
-                        }
+                            "evidence": ["Hardcoded password"],
+                        },
                     }
-                ]
+                ],
             },
             "vacuous-tests": {
                 "behavior_name": "vacuous-tests",
@@ -177,10 +178,10 @@ def sample_evaluation_results():
                 "score": 0.3,
                 "passed": False,
                 "evidence": ["No assertions in tests"],
-                "scenario_results": []
-            }
+                "scenario_results": [],
+            },
         },
-        "metadata": {}
+        "metadata": {},
     }
 
 
@@ -200,4 +201,3 @@ The evaluation identified several issues with the agent's behavior.
 1. Add explicit instructions to avoid hardcoded secrets
 2. Require assertions in all tests
 """
-

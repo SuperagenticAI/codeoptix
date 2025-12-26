@@ -161,7 +161,7 @@ class SemanticBehavior(BehaviorSpec):
         prompt = f"Evaluate this code: {agent_output.code}"
         response = self.llm_client.chat_completion(
             messages=[{"role": "user", "content": prompt}],
-            model="gpt-4o"
+            model="gpt-5.2"
         )
         
         # Parse response and create result

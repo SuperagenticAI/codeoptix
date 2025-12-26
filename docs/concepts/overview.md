@@ -2,11 +2,13 @@
 
 Understanding the fundamental concepts behind CodeOptiX.
 
+> **Agentic Code Optimization. Elevated Agent Experience.**
+
 ---
 
 ## What is CodeOptiX?
 
-CodeOptiX is a **behavioral optimization framework** for AI coding agents. It helps you:
+CodeOptiX is an **agentic code optimization platform** for AI coding agents. It helps you:
 
 - ✅ **Evaluate** agent behavior
 - ✅ **Reflect** on results

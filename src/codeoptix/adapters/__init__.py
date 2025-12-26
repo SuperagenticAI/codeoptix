@@ -1,10 +1,10 @@
-"""Agent adapters for CodeFlect."""
+"""Agent adapters for CodeOptix."""
 
 from codeoptix.adapters.base import AgentAdapter, AgentOutput
 from codeoptix.adapters.claude_code import ClaudeCodeAdapter
 from codeoptix.adapters.codex import CodexAdapter
-from codeoptix.adapters.gemini_cli import GeminiCLIAdapter
 from codeoptix.adapters.factory import create_adapter
+from codeoptix.adapters.gemini_cli import GeminiCLIAdapter
 
 __all__ = [
     "AgentAdapter",
@@ -14,4 +14,3 @@ __all__ = [
     "GeminiCLIAdapter",
     "create_adapter",
 ]
-

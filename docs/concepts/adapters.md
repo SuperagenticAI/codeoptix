@@ -21,7 +21,7 @@ adapter = create_adapter("codex", {
     "llm_config": {
         "provider": "openai",
         "api_key": os.getenv("OPENAI_API_KEY"),
-        "model": "gpt-4o"
+        "model": "gpt-5.2"
     }
 })
 ```
@@ -110,7 +110,7 @@ config = {
     "llm_config": {
         "provider": "openai",  # or "anthropic", "google"
         "api_key": "sk-...",
-        "model": "gpt-4o"  # Optional, has defaults
+        "model": "gpt-5.2"  # Optional, has defaults
     },
     "prompt": "Custom system prompt"  # Optional
 }

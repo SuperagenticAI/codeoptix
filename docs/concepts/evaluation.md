@@ -225,7 +225,7 @@ Compares code against planning artifacts.
     "use_bloom": True,         # Use Bloom-style generation
     "use_full_bloom": True,    # Full Bloom integration
     "num_variations": 2,       # Variations per scenario
-    "model": "gpt-4o"         # LLM model for generation
+    "model": "gpt-5.2"         # LLM model for generation
 }
 ```
 
@@ -249,7 +249,7 @@ Compares code against planning artifacts.
 
 ```python
 "llm_evaluator": {
-    "model": "gpt-4o",
+    "model": "gpt-5.2",
     "temperature": 0.3
 }
 ```

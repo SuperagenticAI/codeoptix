@@ -1,2 +1,1 @@
-"""Utility modules for CodeFlect."""
-
+"""Utility modules for CodeOptix."""

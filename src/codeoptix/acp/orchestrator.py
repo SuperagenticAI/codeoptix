@@ -1,13 +1,11 @@
 """Agent Orchestration - Route to best agent for each task."""
 
-import asyncio
 import logging
 from typing import Any
 
 from acp import text_block
-from acp.core import ClientSideConnection
 
-from codeoptix.acp.code_extractor import extract_code_from_text, extract_code_from_message
+from codeoptix.acp.code_extractor import extract_code_from_message, extract_code_from_text
 from codeoptix.acp.registry import ACPAgentRegistry
 from codeoptix.evaluation import EvaluationEngine
 from codeoptix.utils.llm import LLMClient
@@ -101,24 +99,27 @@ class AgentOrchestrator:
         # - Agent capabilities (from registry)
         # - Task type (inferred from prompt)
         # - Context requirements
-        
+
         # Check if context specifies an agent
         if context and "preferred_agent" in context:
             preferred = context["preferred_agent"]
             if preferred in agents:
                 return preferred
-        
+
         # Infer task type from prompt
         prompt_lower = prompt.lower()
-        
+
         # Security-focused tasks
-        if any(keyword in prompt_lower for keyword in ["security", "secure", "vulnerability", "exploit", "attack"]):
+        if any(
+            keyword in prompt_lower
+            for keyword in ["security", "secure", "vulnerability", "exploit", "attack"]
+        ):
             # Prefer agents with security capabilities
             for agent_name in agents:
                 agent_config = self.registry.get_agent(agent_name)
                 if agent_config and "security" in [c.lower() for c in agent_config.capabilities]:
                     return agent_name
-        
+
         # Code review tasks
         if any(keyword in prompt_lower for keyword in ["review", "critique", "judge", "evaluate"]):
             # Prefer agents with review capabilities
@@ -126,7 +127,7 @@ class AgentOrchestrator:
                 agent_config = self.registry.get_agent(agent_name)
                 if agent_config and "review" in [c.lower() for c in agent_config.capabilities]:
                     return agent_name
-        
+
         # Default: use first available agent
         return agents[0]
 
@@ -247,7 +248,7 @@ Provide a detailed critique focusing on:
         if self.evaluation_engine:
             from codeoptix.adapters.base import AgentOutput
 
-            agent_output = AgentOutput(
+            AgentOutput(
                 code=generated_code,
                 tests="",
                 messages=[],
@@ -270,19 +271,19 @@ Provide a detailed critique focusing on:
 
     def _extract_code_from_response(self, response: Any) -> str:
         """Extract code from agent response.
-        
+
         Args:
             response: ACP prompt response
-            
+
         Returns:
             Extracted code as string
         """
         if not response:
             return ""
-        
+
         # Extract from response messages
         code_blocks = []
-        
+
         # Check if response has messages
         if hasattr(response, "messages"):
             for message in response.messages:
@@ -292,12 +293,12 @@ Provide a detailed critique focusing on:
                         code_blocks.extend(extract_code_from_text(content))
                     elif hasattr(content, "text"):
                         code_blocks.extend(extract_code_from_text(getattr(content, "text", "")))
-        
+
         # Check if response has updates
         if hasattr(response, "updates"):
             for update in response.updates:
                 code_blocks.extend(extract_code_from_message(update))
-        
+
         # Combine all code blocks
         if code_blocks:
             # Prefer code blocks over inline code
@@ -308,23 +309,23 @@ Provide a detailed critique focusing on:
             inline_codes = [cb["content"] for cb in code_blocks if cb.get("type") == "inline"]
             if inline_codes:
                 return "\n".join(inline_codes)
-        
+
         return ""
 
     def _extract_text_from_response(self, response: Any) -> str:
         """Extract text from agent response.
-        
+
         Args:
             response: ACP prompt response
-            
+
         Returns:
             Extracted text as string
         """
         if not response:
             return ""
-        
+
         text_parts = []
-        
+
         # Check if response has messages
         if hasattr(response, "messages"):
             for message in response.messages:
@@ -334,7 +335,7 @@ Provide a detailed critique focusing on:
                         text_parts.append(content)
                     elif hasattr(content, "text"):
                         text_parts.append(getattr(content, "text", ""))
-        
+
         # Check if response has updates
         if hasattr(response, "updates"):
             for update in response.updates:
@@ -344,6 +345,5 @@ Provide a detailed critique focusing on:
                         text_parts.append(content)
                     elif hasattr(content, "text"):
                         text_parts.append(getattr(content, "text", ""))
-        
-        return "\n".join(text_parts)
 
+        return "\n".join(text_parts)

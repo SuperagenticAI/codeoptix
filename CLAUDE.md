@@ -4,6 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
+**Agentic Code Optimization. Elevated Agent Experience.**
+
 CodeOptiX is an agentic code optimization platform that evaluates, reflects on, and evolves the behavior of coding AI agents (Claude Code, Codex, Gemini CLI). It uses a workflow of **Observe → Evaluate → Reflect → Evolve** with multi-modal evaluation (static analysis + LLM judgment + test results).
 
 ## Common Commands

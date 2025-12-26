@@ -1,21 +1,19 @@
 """mypy type checker linter integration."""
 
-import json
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Optional
 
 from codeoptix.linters.base import BaseLinter, LinterIssue, LinterResult, Severity
 
 
 class MypyLinter(BaseLinter):
     """mypy static type checker."""
-    
-    def __init__(self, config: Optional[Dict] = None):
+
+    def __init__(self, config: dict | None = None):
         """Initialize mypy linter."""
         super().__init__(config)
         self.name = "mypy"
-    
+
     def is_available(self) -> bool:
         """Check if mypy is available."""
         try:
@@ -23,22 +21,23 @@ class MypyLinter(BaseLinter):
                 ["mypy", "--version"],
                 capture_output=True,
                 timeout=5,
+                check=False,
             )
             return True
         except (FileNotFoundError, subprocess.TimeoutExpired):
             return False
-    
-    def _find_config_file(self, path: str) -> Optional[Path]:
+
+    def _find_config_file(self, path: str) -> Path | None:
         """Find mypy configuration file."""
         path_obj = Path(path)
-        
+
         config_files = [
             "mypy.ini",
             ".mypy.ini",
             "setup.cfg",
             "pyproject.toml",
         ]
-        
+
         current = path_obj if path_obj.is_file() else path_obj.parent
         while current != current.parent:
             for config_file in config_files:
@@ -51,19 +50,20 @@ class MypyLinter(BaseLinter):
                                 content = f.read()
                                 if "[tool.mypy]" in content:
                                     return config_path
-                        except:
+                        except OSError:
                             pass
                     else:
                         return config_path
             current = current.parent
-        
+
         return None
-    
-    def run(self, path: str, files: Optional[List[str]] = None) -> LinterResult:
+
+    def run(self, path: str, files: list[str] | None = None) -> LinterResult:
         """Run mypy on code."""
         import time
+
         start_time = time.time()
-        
+
         if not self.is_available():
             return LinterResult(
                 linter=self.name,
@@ -72,7 +72,7 @@ class MypyLinter(BaseLinter):
                 errors=["mypy not found in PATH. Install with: pip install mypy"],
                 execution_time=0.0,
             )
-        
+
         path_obj = Path(path)
         if not path_obj.exists():
             return LinterResult(
@@ -82,30 +82,28 @@ class MypyLinter(BaseLinter):
                 errors=[f"Path not found: {path}"],
                 execution_time=0.0,
             )
-        
+
         # Find config file (mypy automatically uses it)
-        config_file = self._find_config_file(path)
-        
+        self._find_config_file(path)
+
         # Build command
         cmd = ["mypy", "--show-error-codes", "--no-error-summary"]
-        
+
         # Add specific files if provided
         if files:
             cmd.extend(files)
-        else:
-            if path_obj.is_file() and path_obj.suffix == ".py":
-                cmd.append(str(path_obj))
-            elif path_obj.is_dir():
-                cmd.append(str(path_obj))
-        
+        elif (path_obj.is_file() and path_obj.suffix == ".py") or path_obj.is_dir():
+            cmd.append(str(path_obj))
+
         try:
             result = subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
                 timeout=120,
+                check=False,
             )
-            
+
             execution_time = time.time() - start_time
             return self.parse_output(
                 result.stdout,
@@ -126,10 +124,10 @@ class MypyLinter(BaseLinter):
                 linter=self.name,
                 success=False,
                 issues=[],
-                errors=[f"mypy error: {str(e)}"],
+                errors=[f"mypy error: {e!s}"],
                 execution_time=time.time() - start_time,
             )
-    
+
     def parse_output(
         self,
         output: str,
@@ -139,24 +137,25 @@ class MypyLinter(BaseLinter):
     ) -> LinterResult:
         """Parse mypy output."""
         import re
+
         issues = []
         errors = []
-        
+
         if stderr:
             errors.append(stderr)
-        
+
         # mypy format: filename:line: error: message [error-code]
         pattern = r"(.+?):(\d+):\s*(error|note|warning):\s*(.+?)(?:\s+\[(.+?)\])?$"
-        
+
         for line in output.split("\n"):
             line = line.strip()
             if not line:
                 continue
-            
+
             match = re.match(pattern, line)
             if match:
                 file_path, line_num, level, message, error_code = match.groups()
-                
+
                 # Map mypy levels to severity
                 if level == "error":
                     severity = Severity.HIGH
@@ -164,7 +163,7 @@ class MypyLinter(BaseLinter):
                     severity = Severity.MEDIUM
                 else:
                     severity = Severity.LOW
-                
+
                 issue = LinterIssue(
                     linter=self.name,
                     severity=severity,
@@ -174,7 +173,7 @@ class MypyLinter(BaseLinter):
                     rule_id=error_code,
                 )
                 issues.append(issue)
-        
+
         return LinterResult(
             linter=self.name,
             success=returncode == 0 or len(issues) == 0,
@@ -183,4 +182,3 @@ class MypyLinter(BaseLinter):
             execution_time=execution_time,
             raw_output=output,
         )
-

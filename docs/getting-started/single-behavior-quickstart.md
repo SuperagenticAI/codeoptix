@@ -48,11 +48,8 @@ codeoptix eval \
 This will:
 
 - ✅ Check for security issues (insecure-code behavior)
-
 - ✅ Use Claude Code as the agent
-
 - ✅ Use OpenAI for evaluation
-
 - ✅ Save results automatically
 
 ### Option 2: Using a Config File (Recommended)

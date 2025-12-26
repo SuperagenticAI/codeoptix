@@ -1,4 +1,4 @@
-/* CodeFlect Custom Styles */
+/* CodeOptix Custom Styles */
 
 :root {
   /* Light mode colors */
@@ -240,7 +240,7 @@ body {
 }
 
 .hero-title {
-  font-size: 4rem;
+  font-size: 5rem;
   font-weight: 800;
   margin: 0 0 1.5rem 0;
   background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 50%, var(--gradient-alt-start) 100%);
@@ -345,24 +345,24 @@ body {
     padding: 3rem 1.5rem;
     margin: -1rem -1rem 3rem -1rem;
   }
-  
+
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
-  
+
   .hero-tagline {
     font-size: 1.5rem;
   }
-  
+
   .hero-description {
     font-size: 1.1rem;
   }
-  
+
   .hero-buttons {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .hero-buttons .md-button {
     width: 100%;
     justify-content: center;

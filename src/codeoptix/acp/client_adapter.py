@@ -27,7 +27,7 @@ from acp.schema import (
     WriteTextFileResponse,
 )
 
-from codeoptix.acp.code_extractor import extract_code_from_message, extract_all_code
+from codeoptix.acp.code_extractor import extract_all_code, extract_code_from_text
 from codeoptix.adapters.base import AgentAdapter, AgentOutput
 
 logger = logging.getLogger(__name__)
@@ -117,12 +117,12 @@ class ACPClientAdapter(AgentAdapter):
             session_id=self._session_id,
             prompt=[text_block(prompt)],
         )
-        
+
         # Extract code and messages from response
         code_blocks = []
         messages = []
         code_content = ""
-        
+
         # Extract from response messages if available
         if hasattr(response, "messages") and response.messages:
             for message in response.messages:
@@ -138,7 +138,7 @@ class ACPClientAdapter(AgentAdapter):
                         if text:
                             messages.append(text)
                             code_blocks.extend(extract_code_from_text(text))
-        
+
         # Extract from response updates if available
         if hasattr(response, "updates") and response.updates:
             code_blocks.extend(extract_all_code(response.updates))
@@ -149,7 +149,7 @@ class ACPClientAdapter(AgentAdapter):
                         messages.append(content)
                     elif hasattr(content, "text"):
                         messages.append(getattr(content, "text", ""))
-        
+
         # Combine all code blocks
         if code_blocks:
             # Prefer code blocks over inline code
@@ -161,7 +161,7 @@ class ACPClientAdapter(AgentAdapter):
                 inline_codes = [cb["content"] for cb in code_blocks if cb.get("type") == "inline"]
                 if inline_codes:
                     code_content = "\n".join(inline_codes)
-        
+
         return AgentOutput(
             code=code_content,
             tests="",
@@ -223,7 +223,7 @@ class _ACPClientImpl(Client):
     ) -> ReadTextFileResponse:
         """Handle file read requests."""
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 if line is not None:
                     lines = f.readlines()
                     if 0 <= line < len(lines):
@@ -310,4 +310,3 @@ class _ACPClientImpl(Client):
     def on_connect(self, conn: Any) -> None:
         """Called when client connects to agent."""
         logger.debug("Connected to ACP agent")
-

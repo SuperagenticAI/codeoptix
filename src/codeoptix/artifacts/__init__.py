@@ -1,4 +1,4 @@
-"""Artifact management for CodeFlect."""
+"""Artifact management for CodeOptix."""
 
 from codeoptix.artifacts.manager import ArtifactManager
 

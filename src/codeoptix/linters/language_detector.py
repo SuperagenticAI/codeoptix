@@ -1,14 +1,13 @@
 """Language detection for automatic linter selection."""
 
 from pathlib import Path
-from typing import Dict, List, Optional, Set
 
 
 class LanguageDetector:
     """Detects programming languages from file paths."""
-    
+
     # Language to file extension mapping
-    LANGUAGE_EXTENSIONS: Dict[str, Set[str]] = {
+    LANGUAGE_EXTENSIONS: dict[str, set[str]] = {
         "python": {".py", ".pyi", ".pyw"},
         "javascript": {".js", ".jsx", ".mjs", ".cjs"},
         "typescript": {".ts", ".tsx"},
@@ -26,9 +25,9 @@ class LanguageDetector:
         "r": {".r", ".R"},
         "shell": {".sh", ".bash", ".zsh", ".fish"},
     }
-    
+
     # Language to linter mapping (zero new dependencies)
-    LANGUAGE_LINTERS: Dict[str, List[str]] = {
+    LANGUAGE_LINTERS: dict[str, list[str]] = {
         "python": ["ruff", "bandit", "pylint", "flake8", "mypy", "safety", "pip-audit", "coverage"],
         "html": ["html-accessibility"],  # Custom tool, no dependency
         "javascript": [],  # No JS linters yet (would require Node.js)
@@ -37,35 +36,35 @@ class LanguageDetector:
         "go": [],  # No Go linters yet
         "rust": [],  # No Rust linters yet
     }
-    
+
     @classmethod
-    def detect_language(cls, file_path: str) -> Optional[str]:
+    def detect_language(cls, file_path: str) -> str | None:
         """
         Detect language from file path.
-        
+
         Args:
             file_path: Path to file
-            
+
         Returns:
             Language name or None
         """
         path = Path(file_path)
         extension = path.suffix.lower()
-        
+
         for language, extensions in cls.LANGUAGE_EXTENSIONS.items():
             if extension in extensions:
                 return language
-        
+
         return None
-    
+
     @classmethod
-    def detect_languages(cls, file_paths: List[str]) -> Set[str]:
+    def detect_languages(cls, file_paths: list[str]) -> set[str]:
         """
         Detect languages from multiple file paths.
-        
+
         Args:
             file_paths: List of file paths
-            
+
         Returns:
             Set of detected languages
         """
@@ -75,47 +74,47 @@ class LanguageDetector:
             if language:
                 languages.add(language)
         return languages
-    
+
     @classmethod
-    def get_linters_for_language(cls, language: str) -> List[str]:
+    def get_linters_for_language(cls, language: str) -> list[str]:
         """
         Get recommended linters for a language.
-        
+
         Args:
             language: Language name
-            
+
         Returns:
             List of linter names
         """
         return cls.LANGUAGE_LINTERS.get(language.lower(), [])
-    
+
     @classmethod
-    def get_linters_for_files(cls, file_paths: List[str]) -> List[str]:
+    def get_linters_for_files(cls, file_paths: list[str]) -> list[str]:
         """
         Get recommended linters for files.
-        
+
         Args:
             file_paths: List of file paths
-            
+
         Returns:
             List of linter names
         """
         languages = cls.detect_languages(file_paths)
         linters = set()
-        
+
         for language in languages:
             linters.update(cls.get_linters_for_language(language))
-        
+
         return list(linters)
-    
+
     @classmethod
-    def find_config_files(cls, path: str) -> Dict[str, Path]:
+    def find_config_files(cls, path: str) -> dict[str, Path]:
         """
         Find existing linter configuration files.
-        
+
         Args:
             path: Path to search
-            
+
         Returns:
             Dictionary mapping linter names to config file paths
         """
@@ -124,9 +123,9 @@ class LanguageDetector:
             search_dir = path_obj.parent
         else:
             search_dir = path_obj
-        
+
         config_files = {}
-        
+
         # Common config file patterns
         config_patterns = {
             "ruff": ["ruff.toml", ".ruff.toml", "pyproject.toml"],
@@ -135,7 +134,7 @@ class LanguageDetector:
             "bandit": ["bandit.yaml", ".bandit", "setup.cfg", "pyproject.toml"],
             "mypy": ["mypy.ini", ".mypy.ini", "setup.cfg", "pyproject.toml"],
         }
-        
+
         # Walk up directory tree
         current = search_dir
         while current != current.parent:
@@ -147,6 +146,5 @@ class LanguageDetector:
                             config_files[linter] = config_path
                             break
             current = current.parent
-        
-        return config_files
 
+        return config_files

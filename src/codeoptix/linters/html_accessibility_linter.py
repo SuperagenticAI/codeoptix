@@ -2,42 +2,41 @@
 
 from html.parser import HTMLParser
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 from codeoptix.linters.base import BaseLinter, LinterIssue, LinterResult, Severity
 
 
 class HTMLAccessibilityParser(HTMLParser):
     """HTML parser for accessibility analysis."""
-    
+
     def __init__(self):
         """Initialize parser."""
         super().__init__()
         self.issues = []
-        self.current_tag: Optional[str] = None
-        self.current_attrs: Dict[str, str] = {}
+        self.current_tag: str | None = None
+        self.current_attrs: dict[str, str] = {}
         self.has_main = False
         self.has_nav = False
-        self.images_without_alt: List[Tuple[int, int]] = []
-        self.headings_order: List[Tuple[Tuple[int, int], int, int]] = []
+        self.images_without_alt: list[tuple[int, int]] = []
+        self.headings_order: list[tuple[tuple[int, int], int, int]] = []
         self.last_heading_level = 0
-        self.html_lang: Optional[str] = None
-        self.heading_tags_seen: List[Tuple[str, Tuple[int, int]]] = []
-        self.links_missing_text: List[Tuple[int, int, Dict[str, str]]] = []
-        self.buttons_missing_text: List[Tuple[int, int, Dict[str, str]]] = []
-        self.inputs_missing_label: List[Tuple[int, int, Dict[str, str]]] = []
-        self.labels_by_for: Dict[str, Tuple[int, int]] = {}
-        self.current_data_buffer: List[str] = []
+        self.html_lang: str | None = None
+        self.heading_tags_seen: list[tuple[str, tuple[int, int]]] = []
+        self.links_missing_text: list[tuple[int, int, dict[str, str]]] = []
+        self.buttons_missing_text: list[tuple[int, int, dict[str, str]]] = []
+        self.inputs_missing_label: list[tuple[int, int, dict[str, str]]] = []
+        self.labels_by_for: dict[str, tuple[int, int]] = {}
+        self.current_data_buffer: list[str] = []
         self.focus_outline_suppressed = False
-        self.suspicious_tabindex: List[Tuple[int, int, Dict[str, str]]] = []
-        self.aria_role_issues: List[Tuple[int, int, str, str]] = []
-    
+        self.suspicious_tabindex: list[tuple[int, int, dict[str, str]]] = []
+        self.aria_role_issues: list[tuple[int, int, str, str]] = []
+
     def handle_starttag(self, tag, attrs):
         """Handle start tag."""
         self.current_tag = tag
         self.current_attrs = {k: v for (k, v) in attrs}
         self.current_data_buffer = []
-        
+
         # Document root and language
         if tag == "html":
             lang = self.current_attrs.get("lang") or self.current_attrs.get("xml:lang")
@@ -49,15 +48,13 @@ class HTMLAccessibilityParser(HTMLParser):
             self.has_main = True
         elif tag == "nav":
             self.has_nav = True
-        
+
         # Check images
         if tag == "img":
             alt = self.current_attrs.get("alt")
-            if alt is None:
+            if alt is None or alt.strip() == "":
                 self.images_without_alt.append(self.getpos())
-            elif alt.strip() == "":
-                self.images_without_alt.append(self.getpos())
-        
+
         # Headings and order
         if tag in ["h1", "h2", "h3", "h4", "h5", "h6"]:
             level = int(tag[1])
@@ -73,21 +70,32 @@ class HTMLAccessibilityParser(HTMLParser):
                 self.labels_by_for[label_for] = self.getpos()
 
         # Inputs that should have labels
-        if tag == "input" and self.current_attrs.get("type") not in ["hidden", "submit", "button", "image"]:
+        if tag == "input" and self.current_attrs.get("type") not in [
+            "hidden",
+            "submit",
+            "button",
+            "image",
+        ]:
             input_id = self.current_attrs.get("id")
             if not input_id or input_id not in self.labels_by_for:
                 # We will also check aria-label/labelledby via attributes
-                self.inputs_missing_label.append((self.getpos()[0], self.getpos()[1], dict(self.current_attrs)))
+                self.inputs_missing_label.append(
+                    (self.getpos()[0], self.getpos()[1], dict(self.current_attrs))
+                )
 
         # Links and buttons: record for later text/aria checks
         if tag == "a":
             href = self.current_attrs.get("href")
             if href:
                 # Will decide missing text after data collected
-                self.links_missing_text.append((self.getpos()[0], self.getpos()[1], dict(self.current_attrs)))
+                self.links_missing_text.append(
+                    (self.getpos()[0], self.getpos()[1], dict(self.current_attrs))
+                )
 
         if tag == "button":
-            self.buttons_missing_text.append((self.getpos()[0], self.getpos()[1], dict(self.current_attrs)))
+            self.buttons_missing_text.append(
+                (self.getpos()[0], self.getpos()[1], dict(self.current_attrs))
+            )
 
         # Tabindex heuristics
         tabindex = self.current_attrs.get("tabindex")
@@ -108,10 +116,8 @@ class HTMLAccessibilityParser(HTMLParser):
         if role:
             # Example: role="button" on non-interactive element
             if role == "button" and tag not in ("button", "a", "input"):
-                self.aria_role_issues.append(
-                    (self.getpos()[0], self.getpos()[1], tag, role)
-                )
-    
+                self.aria_role_issues.append((self.getpos()[0], self.getpos()[1], tag, role))
+
     def handle_data(self, data):
         """Handle text data."""
         if self.current_tag:
@@ -147,21 +153,22 @@ class HTMLAccessibilityParser(HTMLParser):
 
 class HTMLAccessibilityLinter(BaseLinter):
     """Custom HTML accessibility analyzer - no external dependencies."""
-    
-    def __init__(self, config: Optional[Dict] = None):
+
+    def __init__(self, config: dict | None = None):
         """Initialize HTML accessibility linter."""
         super().__init__(config)
         self.name = "html-accessibility"
-    
+
     def is_available(self) -> bool:
         """Always available - pure Python, no dependencies."""
         return True
-    
-    def run(self, path: str, files: Optional[List[str]] = None) -> LinterResult:
+
+    def run(self, path: str, files: list[str] | None = None) -> LinterResult:
         """Run HTML accessibility analysis."""
         import time
+
         start_time = time.time()
-        
+
         path_obj = Path(path)
         if not path_obj.exists():
             return LinterResult(
@@ -171,7 +178,7 @@ class HTMLAccessibilityLinter(BaseLinter):
                 errors=[f"Path not found: {path}"],
                 execution_time=0.0,
             )
-        
+
         # Find HTML files
         html_files = []
         if path_obj.is_file() and path_obj.suffix in [".html", ".htm"]:
@@ -181,7 +188,7 @@ class HTMLAccessibilityLinter(BaseLinter):
                 html_files = [Path(f) for f in files if Path(f).suffix in [".html", ".htm"]]
             else:
                 html_files = list(path_obj.rglob("*.html")) + list(path_obj.rglob("*.htm"))
-        
+
         if not html_files:
             return LinterResult(
                 linter=self.name,
@@ -190,34 +197,34 @@ class HTMLAccessibilityLinter(BaseLinter):
                 errors=["No HTML files found"],
                 execution_time=0.0,
             )
-        
+
         all_issues = []
-        
+
         for html_file in html_files:
             try:
-                with open(html_file, "r", encoding="utf-8") as f:
+                with open(html_file, encoding="utf-8") as f:
                     html_content = f.read()
-                
+
                 # Parse HTML
                 parser = HTMLAccessibilityParser()
                 parser.feed(html_content)
-                
+
                 # Generate issues
                 file_issues = self._generate_issues(html_file, parser)
                 all_issues.extend(file_issues)
-                
+
             except Exception as e:
                 all_issues.append(
                     LinterIssue(
                         linter=self.name,
                         severity=Severity.MEDIUM,
-                        message=f"Failed to parse HTML: {str(e)}",
+                        message=f"Failed to parse HTML: {e!s}",
                         file=str(html_file),
                     )
                 )
-        
+
         execution_time = time.time() - start_time
-        
+
         return LinterResult(
             linter=self.name,
             success=len(all_issues) == 0,
@@ -225,8 +232,10 @@ class HTMLAccessibilityLinter(BaseLinter):
             errors=[],
             execution_time=execution_time,
         )
-    
-    def _generate_issues(self, html_file: Path, parser: HTMLAccessibilityParser) -> List[LinterIssue]:
+
+    def _generate_issues(
+        self, html_file: Path, parser: HTMLAccessibilityParser
+    ) -> list[LinterIssue]:
         """Generate accessibility issues from parser results."""
         issues = []
 
@@ -363,4 +372,3 @@ class HTMLAccessibilityLinter(BaseLinter):
             )
 
         return issues
-

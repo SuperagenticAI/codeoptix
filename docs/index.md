@@ -14,19 +14,19 @@ hide:
 
 <h1 class="hero-title">CodeOptiX</h1>
 
-<p class="hero-tagline">Agentic Code Optimization For Better Coding Agent Experience</p>
+<p class="hero-tagline">Agentic Code Optimization Platform</p>
 
 <p class="hero-description">
-<strong>Open-source platform for GEPA optimization, Bloom evals, and behavior testing</strong><br>
-CodeOptiX automatically optimizes, evaluates, and evolves your coding agents for better code quality.<br>
-<em>Built by <a href="https://super-agentic.ai" target="_blank">Superagentic AI</a> - Full-Stack Agentic AI Company</em>
+<strong>Evaluate, test, and optimize AI-generated code before you ship.</strong><br>
+Powered by GEPA (Genetic-Pareto) optimization and Bloom-style scenario generation.<br>
+<em>Built by <a href="https://super-agentic.ai" target="_blank">Superagentic AI</a></em>
 </p>
 
 <div class="hero-buttons">
-<a href="/getting-started/installation/" class="md-button md-button--primary">
+<a href="getting-started/installation/" class="md-button md-button--primary">
 <span class="twemoji">🚀</span> Get Started
 </a>
-<a href="/getting-started/single-behavior-quickstart/" class="md-button">
+<a href="getting-started/single-behavior-quickstart/" class="md-button">
 <span class="twemoji">⚡</span> Quick Start
 </a>
 <a href="https://github.com/SuperagenticAI/codeoptix" class="md-button" target="_blank">
@@ -49,30 +49,24 @@ When you use AI coding agents (Claude Code, Codex, Gemini CLI, etc.), you face a
 CodeOptiX answers this by:
 
 - ✅ **Testing for regressions** - Catch breaking changes before they ship
-
 - ✅ **Evaluating code quality** - Security, test quality, requirements alignment
-
 - ✅ **Multi-LLM critique** - Get different perspectives on your code
-
 - ✅ **Optimizing agent prompts** - Automatically improve agent behavior
-
 - ✅ **Actionable feedback** - Clear, specific recommendations
 
 **When to Use:** Run CodeOptiX **when you're ready to test your code** - after completing a feature or task.
 
 !!! tip "Ollama Support - No API Key Required!"
     **CodeOptiX now supports Ollama** - use local models without API keys:
+
     - ✅ **Ollama integration** - Run evaluations with local models
-
     - ✅ **No API key needed** - Perfect for open-source users
-
     - ✅ **Privacy-friendly** - All processing happens locally
-
     - ✅ **Free to use** - No cloud costs
-    
-    **See [Ollama Integration](../../examples/OLLAMA_TEST_RESULTS.md) for setup instructions.**
-    
-    **Cloud providers** (OpenAI, Anthropic, Google) still require API keys. See [Installation](/getting-started/installation/#setting-up-llm-providers) for setup.
+
+    **See [Ollama Integration](guides/ollama-integration/) for setup instructions.**
+
+    **Cloud providers** (OpenAI, Anthropic, Google) still require API keys. See [Installation](getting-started/installation/#setting-up-llm-providers) for setup.
 
 ---
 
@@ -98,19 +92,6 @@ codeoptix eval \
 ```
 
 **That's it!** You've just run your first quality check.
-
-!!! tip "Ollama Support Available"
-    **CodeOptiX now supports Ollama** - use local models without API keys!
-    
-    **To use Ollama:**
-    1. Install Ollama: https://ollama.ai
-    2. Start service: `ollama serve`
-    3. Pull a model: `ollama pull llama3.1:8b`
-    4. Run: `codeoptix eval --llm-provider ollama ...`
-    
-    **Cloud providers** (OpenAI, Anthropic, Google) still require API keys.
-    
-    See [Installation Guide](/getting-started/installation/#setting-up-llm-providers) for setup instructions.
 
 ---
 
@@ -210,21 +191,6 @@ codeoptix eval \
 </div>
 
 </div>
-
----
-
-## 🎯 Core Value Proposition
-
-CodeOptiX is an **Agentic Code Optimization Platform** focused on GEPA optimization, Bloom evals, and behavior testing for coding agents. Built by [Superagentic AI](https://super-agentic.ai).
-
-### Key Differentiators
-
-- **GEPA Optimization** - Automatically improve agent behavior using Genetic-Pareto Evolution
-- **Bloom Evaluations** - Deep behavioral evaluation with Bloom-style scenario generation
-- **Behavior Testing** - Test coding agents against configurable behavior specifications
-- **Agent-agnostic** - Works with any coding agent
-- **Multiple usage modes** - CLI, CI/CD, ACP integration
-- **Local LLM Support** - Use Ollama without API keys
 
 ---
 
@@ -333,7 +299,7 @@ Optimize agent prompts using GEPA (Genetic-Pareto) for continuous improvement.
 
 ## 🚀 Usage Modes
 
-### Mode 1: Local Check (Primary) ✅
+### Mode 1: Local Check (Primary)
 
 **When:** You're ready to test your code after completing a feature/task
 
@@ -359,7 +325,7 @@ codeoptix eval \
 - ✅ Security scanning
 - ✅ Optimization suggestions
 
-### Mode 2: CI/CD Integration (Primary) ✅
+### Mode 2: CI/CD Integration (Primary)
 
 **When:** Teams want automated quality gates
 
@@ -380,7 +346,7 @@ codeoptix ci \
 - ✅ Fail-fast behavior
 - ✅ PR comments (coming soon)
 
-### Mode 3: ACP Integration (Quality Bridge) ✅
+### Mode 3: ACP Integration (Quality Bridge)
 
 **When:** Users want quality checks integrated into editor workflow
 
@@ -553,10 +519,10 @@ pip install -e .
 
 ### Getting Started
 
-- [Installation](/getting-started/installation/) - Set up CodeOptiX
-- [Single Behavior Quickstart](/getting-started/single-behavior-quickstart/) ⭐ - Perfect for first-time users
-- [Quick Start](/getting-started/quickstart/) - Your first evaluation
-- [Your First Evaluation](/getting-started/first-evaluation/) - Step-by-step guide
+- [Installation](getting-started/installation/) - Set up CodeOptiX
+- [Single Behavior Quickstart](getting-started/single-behavior-quickstart/) - Perfect for first-time users
+- [Quick Start](getting-started/quickstart/) - Your first evaluation
+- [Your First Evaluation](getting-started/first-evaluation/) - Step-by-step guide
 
 ### Core Concepts
 
@@ -643,15 +609,15 @@ See `examples/configs/` directory in the repository for configuration examples.
 
 <div class="cta-section">
 
-<h2>Ready to supercharge your coding agent experience?</h2>
+<h2>Ready to elevate your agent experience?</h2>
 
 <div class="cta-buttons">
 
-<a href="/getting-started/installation/" class="md-button md-button--primary">
+<a href="getting-started/installation/" class="md-button md-button--primary">
 <span class="twemoji">🚀</span> Get Started
 </a>
 
-<a href="/getting-started/single-behavior-quickstart/" class="md-button md-button--primary">
+<a href="getting-started/single-behavior-quickstart/" class="md-button md-button--primary">
 <span class="twemoji">⚡</span> Single Behavior Quickstart
 </a>
 
@@ -667,25 +633,19 @@ See `examples/configs/` directory in the repository for configuration examples.
 
 ## 📞 Support & Community
 
-- 📖 [Full Documentation](index.md)
+- 📖 [Documentation](https://superagenticai.github.io/codeoptix)
 - 💬 [GitHub Issues](https://github.com/SuperagenticAI/codeoptix/issues)
 - 💬 [GitHub Discussions](https://github.com/SuperagenticAI/codeoptix/discussions)
-- 📧 [Email Support](mailto:codeoptix@super-agentic.ai)
 
 ---
 
 ## 📄 License
 
-Apache License 2.0 - see LICENSE file for details.
-
-**Built by [Superagentic AI](https://super-agentic.ai)** - Full-Stack Agentic AI Company
+Apache License 2.0. See [LICENSE](https://github.com/SuperagenticAI/codeoptix/blob/main/LICENSE) for details.
 
 ---
 
 <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--md-default-bg-color--lighter); border-radius: 8px;">
-
-**Made with ❤️ by the CodeOptiX team**
-
-[Star us on GitHub :material-star:](https://github.com/SuperagenticAI/codeoptix)
-
+<p><strong>Brought to you by <a href="https://super-agentic.ai" target="_blank">Superagentic AI</a></strong></p>
+<p><a href="https://github.com/SuperagenticAI/codeoptix" class="md-button">⭐ Star us on GitHub</a></p>
 </div>

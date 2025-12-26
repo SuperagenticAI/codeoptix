@@ -84,13 +84,9 @@ codeoptix ci \
 **Features:**
 
 - ✅ Non-interactive execution
-
 - ✅ Proper exit codes for automation
-
 - ✅ Summary output format
-
 - ✅ Fail-fast behavior
-
 - ✅ Optimized for CI/CD pipelines
 
 **Example for GitHub Actions:**
@@ -245,15 +241,11 @@ Run static analysis linters on your code **without requiring an API key**.
     The `lint` command works **without an API key** and uses basic static linters:
 
     - ✅ Security checks (Bandit, Safety, pip-audit)
-
     - ✅ Code quality (Ruff, Pylint, Flake8)
-
     - ✅ Type checking (mypy)
-
     - ✅ Test coverage (coverage.py)
-
     - ✅ Accessibility (HTML analyzer)
-    
+
     **However, to unlock the full power** of CodeOptiX (behavioral evaluation, agent optimization, multi-LLM critique), **you need an API key**. See [Installation Guide](../getting-started/installation.md#setting-up-api-keys).
 
 **Basic Usage:**
@@ -571,15 +563,11 @@ codeoptix eval --config codeoptix.yaml --agent codex --behaviors insecure-code
     **With an API key**, you unlock:
 
     - ✅ Behavioral evaluation (`codeoptix eval`)
-
     - ✅ Multi-LLM code critique
-
     - ✅ Automatic prompt optimization (`codeoptix evolve`)
-
     - ✅ Deep quality analysis (`codeoptix reflect`)
-
     - ✅ Agent orchestration and multi-agent workflows
-    
+
     **We strongly recommend setting up an API key** to get the full CodeOptiX experience.
 
 Set API keys as environment variables:
@@ -682,6 +670,114 @@ Use one of the built-in behaviors:
 - **`vacuous-tests`**
 
 - **`plan-drift`**
+
+### API Key Issues
+
+#### OpenAI API Key Not Working
+
+```bash
+# Check if environment variable is set
+echo $OPENAI_API_KEY
+
+# Make sure it starts with 'sk-'
+# For latest models, use gpt-5.2 instead of older GPT models
+codeoptix eval --agent codex --behaviors insecure-code --llm-provider openai
+```
+
+#### Anthropic API Key Issues
+
+```bash
+# Check Anthropic key
+echo $ANTHROPIC_API_KEY
+
+# Make sure it starts with 'sk-ant-api03-'
+codeoptix eval --agent claude-code --behaviors insecure-code --llm-provider anthropic
+```
+
+#### Ollama Connection Issues
+
+```bash
+# Make sure Ollama is running
+ollama serve
+
+# Check if models are available
+ollama list
+
+# Pull a model if needed
+ollama pull llama3.2
+```
+
+### Agent-Specific Issues
+
+#### Claude Code Not Responding
+
+- Make sure Claude CLI is installed and authenticated
+- Check if `claude` command is available in PATH
+- Try running `claude --help` manually
+
+#### Codex Connection Issues
+
+- Verify OpenAI API key has sufficient credits
+- Check rate limits on OpenAI account
+- Try a different model like `gpt-5.2`
+
+#### Gemini CLI Issues
+
+- Ensure Google Cloud SDK is installed and authenticated
+- Check if `gcloud` command works
+- Verify Gemini API is enabled in Google Cloud Console
+
+### Configuration Issues
+
+#### YAML Configuration Not Loading
+
+```bash
+# Validate YAML syntax
+python -c "import yaml; yaml.safe_load(open('codeoptix.yaml'))"
+
+# Check file permissions
+ls -la codeoptix.yaml
+```
+
+#### Invalid Configuration Options
+
+Common mistakes:
+- Using wrong indentation in YAML
+- Missing required fields like `llm_config.api_key`
+- Using unsupported model names
+
+### Performance Issues
+
+#### Slow Evaluations
+
+- Use Ollama for local evaluation (no API calls)
+- Reduce number of scenarios in config
+- Use `ci` command for faster, focused evaluation
+
+#### Memory Issues
+
+- Close other applications
+- Use smaller models with Ollama
+- Reduce batch sizes in configuration
+
+### File and Directory Issues
+
+#### Permission Denied
+
+```bash
+# Check current directory permissions
+ls -ld .
+
+# Change to a directory you have write access to
+cd /tmp
+codeoptix eval --agent codex --behaviors insecure-code
+```
+
+#### Results Files Not Found
+
+- Check the output directory has write permissions
+- Use absolute paths for output files
+- Run `codeoptix list-runs` to see existing runs
 
 ---
 

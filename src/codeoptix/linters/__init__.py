@@ -5,10 +5,9 @@ from codeoptix.linters.language_detector import LanguageDetector
 from codeoptix.linters.runner import LinterRunner
 
 __all__ = [
-    "LinterRunner",
-    "LinterResult",
-    "LinterIssue",
-    "Severity",
     "LanguageDetector",
+    "LinterIssue",
+    "LinterResult",
+    "LinterRunner",
+    "Severity",
 ]
-

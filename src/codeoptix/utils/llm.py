@@ -6,17 +6,16 @@ import urllib.error
 import urllib.request
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import anthropic
 import openai
 from google import genai
-from google.genai import types as genai_types
 
 
 class LLMProvider(str, Enum):
     """Supported LLM providers."""
-    
+
     ANTHROPIC = "anthropic"
     OPENAI = "openai"
     GOOGLE = "google"
@@ -25,157 +24,148 @@ class LLMProvider(str, Enum):
 
 class LLMClient(ABC):
     """Abstract base class for LLM clients."""
-    
+
     @abstractmethod
     def chat_completion(
         self,
-        messages: List[Dict[str, str]],
+        messages: list[dict[str, str]],
         model: str,
         temperature: float = 1.0,
-        max_tokens: Optional[int] = None,
-        **kwargs: Any
+        max_tokens: int | None = None,
+        **kwargs: Any,
     ) -> str:
         """Generate a chat completion."""
-        pass
-    
+
     @abstractmethod
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Get list of available models for this provider."""
-        pass
 
 
 class AnthropicClient(LLMClient):
     """Anthropic Claude client."""
-    
-    def __init__(self, api_key: Optional[str] = None):
+
+    def __init__(self, api_key: str | None = None):
         """Initialize Anthropic client."""
         self.client = anthropic.Anthropic(api_key=api_key)
-    
+
     def chat_completion(
         self,
-        messages: List[Dict[str, str]],
-        model: str = "claude-3-5-sonnet-20241022",
+        messages: list[dict[str, str]],
+        model: str = "claude-opus-4-5-20251101",
         temperature: float = 1.0,
-        max_tokens: Optional[int] = None,
-        **kwargs: Any
+        max_tokens: int | None = None,
+        **kwargs: Any,
     ) -> str:
         """Generate a chat completion using Anthropic."""
         # Convert messages to Anthropic format
         system_message = None
         anthropic_messages = []
-        
+
         for msg in messages:
             role = msg.get("role", "user")
             content = msg.get("content", "")
-            
+
             if role == "system":
                 system_message = content
             elif role == "user":
                 anthropic_messages.append({"role": "user", "content": content})
             elif role == "assistant":
                 anthropic_messages.append({"role": "assistant", "content": content})
-        
+
         response = self.client.messages.create(
             model=model,
             max_tokens=max_tokens or 4096,
             temperature=temperature,
             system=system_message,
             messages=anthropic_messages,
-            **kwargs
+            **kwargs,
         )
-        
+
         # Extract text content from response
         if response.content and len(response.content) > 0:
-            if hasattr(response.content[0], 'text'):
+            if hasattr(response.content[0], "text"):
                 return response.content[0].text
             return str(response.content[0])
         return ""
-    
-    def get_available_models(self) -> List[str]:
+
+    def get_available_models(self) -> list[str]:
         """Get available Anthropic models."""
         return [
+            "claude-opus-4-5-20251101",
+            "claude-sonnet-4-5-20251101",
+            "claude-haiku-4-5-20251101",
             "claude-3-5-sonnet-20241022",
             "claude-3-5-haiku-20241022",
-            "claude-3-opus-20240229",
-            "claude-3-sonnet-20240229",
-            "claude-3-haiku-20240307",
         ]
 
 
 class OpenAIClient(LLMClient):
     """OpenAI GPT client."""
-    
-    def __init__(self, api_key: Optional[str] = None):
+
+    def __init__(self, api_key: str | None = None):
         """Initialize OpenAI client."""
         self.client = openai.OpenAI(api_key=api_key)
-    
+
     def chat_completion(
         self,
-        messages: List[Dict[str, str]],
-        model: str = "gpt-4o",
+        messages: list[dict[str, str]],
+        model: str = "gpt-5.2",
         temperature: float = 1.0,
-        max_tokens: Optional[int] = None,
-        **kwargs: Any
+        max_tokens: int | None = None,
+        **kwargs: Any,
     ) -> str:
         """Generate a chat completion using OpenAI."""
         response = self.client.chat.completions.create(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            **kwargs
+            model=model, messages=messages, temperature=temperature, max_tokens=max_tokens, **kwargs
         )
-        
+
         if response.choices and len(response.choices) > 0:
             return response.choices[0].message.content or ""
         return ""
-    
-    def get_available_models(self) -> List[str]:
+
+    def get_available_models(self) -> list[str]:
         """Get available OpenAI models."""
         return [
+            "gpt-5.2",
             "gpt-4o",
             "gpt-4o-mini",
             "gpt-4-turbo",
             "gpt-4",
-            "gpt-3.5-turbo",
         ]
 
 
 class GoogleClient(LLMClient):
     """Google Gemini client using google-genai SDK."""
-    
-    def __init__(self, api_key: Optional[str] = None):
+
+    def __init__(self, api_key: str | None = None):
         """Initialize Google client."""
         # Use the new google-genai Client API
         self.client = genai.Client(api_key=api_key) if api_key else genai.Client()
-    
+
     def chat_completion(
         self,
-        messages: List[Dict[str, str]],
+        messages: list[dict[str, str]],
         model: str = "gemini-2.0-flash-exp",
         temperature: float = 1.0,
-        max_tokens: Optional[int] = None,
-        **kwargs: Any
+        max_tokens: int | None = None,
+        **kwargs: Any,
     ) -> str:
         """Generate a chat completion using Google Gemini."""
         # Convert messages to the new API format
         # The new API uses Contents format with role and parts
         contents = []
         system_instruction = None
-        
+
         for msg in messages:
             role = msg.get("role", "user")
             content = msg.get("content", "")
-            
+
             if role == "system":
                 system_instruction = content
             else:
                 # Create Content object with role and parts
-                contents.append({
-                    "role": role,
-                    "parts": [{"text": content}]
-                })
-        
+                contents.append({"role": role, "parts": [{"text": content}]})
+
         # Build the config
         config_dict = {
             "temperature": temperature,
@@ -184,46 +174,47 @@ class GoogleClient(LLMClient):
             config_dict["max_output_tokens"] = max_tokens
         if system_instruction:
             config_dict["system_instruction"] = {"parts": [{"text": system_instruction}]}
-        
+
         # Generate content using the new API
         response = self.client.models.generate_content(
             model=model,
             contents=contents,
             config=config_dict,
         )
-        
+
         # Extract text from response
         # The new API returns response with text attribute or candidates
-        if hasattr(response, 'text') and response.text:
+        if hasattr(response, "text") and response.text:
             return response.text
-        elif hasattr(response, 'candidates') and response.candidates:
+        if hasattr(response, "candidates") and response.candidates:
             # Handle structured response with candidates
             candidate = response.candidates[0]
-            if hasattr(candidate, 'content') and hasattr(candidate.content, 'parts'):
+            if hasattr(candidate, "content") and hasattr(candidate.content, "parts"):
                 text_parts = []
                 for part in candidate.content.parts:
-                    if hasattr(part, 'text') and part.text:
+                    if hasattr(part, "text") and part.text:
                         text_parts.append(part.text)
                 if text_parts:
-                    return ''.join(text_parts)
+                    return "".join(text_parts)
         # Fallback to string representation
         return str(response)
-    
-    def get_available_models(self) -> List[str]:
+
+    def get_available_models(self) -> list[str]:
         """Get available Google models."""
         return [
+            "gemini-3-pro",
+            "gemini-3-flash",
             "gemini-2.0-flash-exp",
             "gemini-2.5-flash",
             "gemini-2.5-pro",
             "gemini-1.5-pro",
-            "gemini-1.5-flash",
         ]
 
 
 class OllamaClient(LLMClient):
     """Ollama local model client (http://localhost:11434)."""
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: str | None = None):
         """Initialize Ollama client.
 
         api_key is unused but kept for interface compatibility.
@@ -250,10 +241,10 @@ class OllamaClient(LLMClient):
 
     def chat_completion(
         self,
-        messages: List[Dict[str, str]],
+        messages: list[dict[str, str]],
         model: str = "llama3.1",
         temperature: float = 1.0,
-        max_tokens: Optional[int] = None,
+        max_tokens: int | None = None,
         **kwargs: Any,
     ) -> str:
         """Generate a chat completion using a local Ollama model."""
@@ -286,7 +277,7 @@ class OllamaClient(LLMClient):
             if self.base_url != default_url:
                 hint = f" (OLLAMA_BASE_URL is set to {self.base_url}, default is {default_url})"
             else:
-                hint = f" (default port is 11434)"
+                hint = " (default port is 11434)"
             raise RuntimeError(
                 f"Failed to contact Ollama at {self.base_url}. "
                 f"Is the Ollama daemon running?{hint}\n"
@@ -306,7 +297,7 @@ class OllamaClient(LLMClient):
             return content
         return str(content) if content is not None else ""
 
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Get available Ollama models via /api/tags."""
         req = urllib.request.Request(
             f"{self.base_url}/api/tags",
@@ -328,16 +319,14 @@ class OllamaClient(LLMClient):
         return models
 
 
-def create_llm_client(provider: LLMProvider, api_key: Optional[str] = None) -> LLMClient:
+def create_llm_client(provider: LLMProvider, api_key: str | None = None) -> LLMClient:
     """Factory function to create an LLM client."""
     if provider == LLMProvider.ANTHROPIC:
         return AnthropicClient(api_key=api_key)
-    elif provider == LLMProvider.OPENAI:
+    if provider == LLMProvider.OPENAI:
         return OpenAIClient(api_key=api_key)
-    elif provider == LLMProvider.GOOGLE:
+    if provider == LLMProvider.GOOGLE:
         return GoogleClient(api_key=api_key)
-    elif provider == LLMProvider.OLLAMA:
+    if provider == LLMProvider.OLLAMA:
         return OllamaClient(api_key=api_key)
-    else:
-        raise ValueError(f"Unsupported provider: {provider}")
-
+    raise ValueError(f"Unsupported provider: {provider}")

@@ -1,5 +1,5 @@
 site_name: CodeOptiX Documentation
-site_description: Behavioral optimization engine for coding agents
+site_description: Agentic Code Optimization. Elevated Agent Experience.
 site_author: Superagentic AI
 site_url: https://superagenticai.github.io/codeoptix
 
@@ -69,6 +69,9 @@ plugins:
   - search
   - minify:
       minify_html: true
+
+extra:
+  generator: false
 
 extra_css:
   - stylesheets/extra.css

@@ -24,7 +24,7 @@ Create `codeoptix.yaml`:
 adapter:
   llm_config:
     provider: openai
-    model: gpt-4o
+    model: gpt-5.2
     api_key: ${OPENAI_API_KEY}
 
 evaluation:
@@ -43,7 +43,7 @@ evolution:
   minibatch_size: 2
   proposer:
     use_gepa: true
-    model: gpt-4o
+    model: gpt-5.2
 ```
 
 ### JSON Configuration
@@ -55,7 +55,7 @@ Create `codeoptix.json`:
   "adapter": {
     "llm_config": {
       "provider": "openai",
-      "model": "gpt-4o",
+      "model": "gpt-5.2",
       "api_key": "${OPENAI_API_KEY}"
     }
   },
@@ -78,7 +78,7 @@ Create `codeoptix.json`:
 adapter:
   llm_config:
     provider: openai  # or "anthropic", "google"
-    model: gpt-4o
+    model: gpt-5.2
     api_key: ${OPENAI_API_KEY}
   prompt: "You are a helpful coding assistant."
 ```
@@ -102,7 +102,7 @@ evaluation:
     use_bloom: true         # Use Bloom-style generation
     use_full_bloom: true    # Full Bloom integration
     num_variations: 2       # Variations per scenario
-    model: gpt-4o          # LLM model for generation
+    model: gpt-5.2          # LLM model for generation
 ```
 
 ### Static Analysis
@@ -126,7 +126,7 @@ evaluation:
 ```yaml
 evaluation:
   llm_evaluator:
-    model: gpt-4o
+    model: gpt-5.2
     temperature: 0.3
 ```
 
@@ -150,7 +150,7 @@ evolution:
 evolution:
   proposer:
     use_gepa: true      # Use GEPA for proposal
-    model: gpt-4o       # LLM model
+    model: gpt-5.2       # LLM model
     temperature: 0.7    # Generation temperature
 ```
 
@@ -186,7 +186,7 @@ export GOOGLE_API_KEY="..."
 ### Configuration Override
 
 ```bash
-export CODEFLECT_CONFIG="path/to/config.yaml"
+export CODEOPTIX_CONFIG="path/to/config.yaml"
 ```
 
 ---

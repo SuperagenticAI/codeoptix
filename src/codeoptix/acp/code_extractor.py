@@ -7,12 +7,15 @@ from acp.schema import (
     AgentMessageChunk,
     FileEditToolCallContent,
     TextContentBlock,
-    ToolCallStart,
     ToolCallProgress,
+    ToolCallStart,
 )
 
 # Patterns for extracting code from text
-CODE_BLOCK_PATTERN = re.compile(r"```(?:python|py|javascript|js|typescript|ts|java|go|rust|cpp|c\+\+|c|ruby|php|swift|kotlin|scala|r|sql|html|css|xml|yaml|yml|json|bash|sh|shell|zsh|fish)?\n(.*?)```", re.DOTALL)
+CODE_BLOCK_PATTERN = re.compile(
+    r"```(?:python|py|javascript|js|typescript|ts|java|go|rust|cpp|c\+\+|c|ruby|php|swift|kotlin|scala|r|sql|html|css|xml|yaml|yml|json|bash|sh|shell|zsh|fish)?\n(.*?)```",
+    re.DOTALL,
+)
 INLINE_CODE_PATTERN = re.compile(r"`([^`]+)`")
 
 
@@ -70,19 +73,23 @@ def extract_code_from_message(update: Any) -> list[dict[str, str]]:
             if isinstance(content, FileEditToolCallContent):
                 # Extract code from file edits
                 if hasattr(content, "old_text") and content.old_text:
-                    code_blocks.append({
-                        "language": "text",
-                        "content": content.old_text,
-                        "type": "file_edit_old",
-                        "path": getattr(content, "path", ""),
-                    })
+                    code_blocks.append(
+                        {
+                            "language": "text",
+                            "content": content.old_text,
+                            "type": "file_edit_old",
+                            "path": getattr(content, "path", ""),
+                        }
+                    )
                 if hasattr(content, "new_text") and content.new_text:
-                    code_blocks.append({
-                        "language": "text",
-                        "content": content.new_text,
-                        "type": "file_edit_new",
-                        "path": getattr(content, "path", ""),
-                    })
+                    code_blocks.append(
+                        {
+                            "language": "text",
+                            "content": content.new_text,
+                            "type": "file_edit_new",
+                            "path": getattr(content, "path", ""),
+                        }
+                    )
 
     elif isinstance(update, ToolCallProgress):
         tool_call = update.tool_call
@@ -91,12 +98,14 @@ def extract_code_from_message(update: Any) -> list[dict[str, str]]:
             if isinstance(content, FileEditToolCallContent):
                 # Extract code from file edit progress
                 if hasattr(content, "new_text") and content.new_text:
-                    code_blocks.append({
-                        "language": "text",
-                        "content": content.new_text,
-                        "type": "file_edit_progress",
-                        "path": getattr(content, "path", ""),
-                    })
+                    code_blocks.append(
+                        {
+                            "language": "text",
+                            "content": content.new_text,
+                            "type": "file_edit_progress",
+                            "path": getattr(content, "path", ""),
+                        }
+                    )
 
     return code_blocks
 
@@ -114,4 +123,3 @@ def extract_all_code(updates: list[Any]) -> list[dict[str, str]]:
     for update in updates:
         all_code.extend(extract_code_from_message(update))
     return all_code
-

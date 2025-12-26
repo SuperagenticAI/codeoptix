@@ -3,7 +3,6 @@
 import asyncio
 import logging
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any
 
 from acp import PROTOCOL_VERSION, Client, connect_to_agent
@@ -225,7 +224,7 @@ class _RegistryClientImpl(Client):
     ) -> ReadTextFileResponse:
         """Handle file read requests."""
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 if line is not None:
                     lines = f.readlines()
                     if 0 <= line < len(lines):
@@ -279,7 +278,6 @@ class _RegistryClientImpl(Client):
     ) -> None:
         """Handle session updates from agent."""
         # Registry doesn't need to handle updates
-        pass
 
     async def ext_method(self, method: str, params: dict[str, Any]) -> dict[str, Any]:
         """Handle extension methods."""
@@ -294,4 +292,3 @@ class _RegistryClientImpl(Client):
     def on_connect(self, conn: Any) -> None:
         """Called when client connects to agent."""
         logger.debug("Registry connected to ACP agent")
-

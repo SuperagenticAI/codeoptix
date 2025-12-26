@@ -45,11 +45,8 @@ codeoptix eval \
 This command:
 
 - ✅ Creates a Codex adapter
-
 - ✅ Generates test scenarios
-
 - ✅ Evaluates the agent's code
-
 - ✅ Saves results to `.codeoptix/artifacts/results_*.json`
 
 ---

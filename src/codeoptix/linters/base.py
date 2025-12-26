@@ -2,11 +2,12 @@
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class Severity(str, Enum):
     """Issue severity levels."""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -17,17 +18,18 @@ class Severity(str, Enum):
 @dataclass
 class LinterIssue:
     """Represents a single linter issue."""
+
     linter: str
     severity: Severity
     message: str
     file: str
-    line: Optional[int] = None
-    column: Optional[int] = None
-    code: Optional[str] = None
-    rule_id: Optional[str] = None
-    confidence: Optional[float] = None
-    
-    def to_dict(self) -> Dict[str, Any]:
+    line: int | None = None
+    column: int | None = None
+    code: str | None = None
+    rule_id: str | None = None
+    confidence: float | None = None
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "linter": self.linter,
@@ -45,29 +47,30 @@ class LinterIssue:
 @dataclass
 class LinterResult:
     """Result from running a linter."""
+
     linter: str
     success: bool
-    issues: List[LinterIssue]
-    errors: List[str]
+    issues: list[LinterIssue]
+    errors: list[str]
     execution_time: float
-    raw_output: Optional[str] = None
-    
+    raw_output: str | None = None
+
     @property
     def issue_count(self) -> int:
         """Get total issue count."""
         return len(self.issues)
-    
+
     @property
     def critical_count(self) -> int:
         """Get critical issue count."""
         return sum(1 for issue in self.issues if issue.severity == Severity.CRITICAL)
-    
+
     @property
     def high_count(self) -> int:
         """Get high severity issue count."""
         return sum(1 for issue in self.issues if issue.severity == Severity.HIGH)
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "linter": self.linter,
@@ -83,21 +86,20 @@ class LinterResult:
 
 class BaseLinter:
     """Base class for linter implementations."""
-    
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+
+    def __init__(self, config: dict[str, Any] | None = None):
         """Initialize linter."""
         self.config = config or {}
         self.name = self.__class__.__name__.replace("Linter", "").lower()
-    
+
     def is_available(self) -> bool:
         """Check if linter is available in PATH."""
         raise NotImplementedError
-    
-    def run(self, path: str, files: Optional[List[str]] = None) -> LinterResult:
+
+    def run(self, path: str, files: list[str] | None = None) -> LinterResult:
         """Run linter on code."""
         raise NotImplementedError
-    
+
     def parse_output(self, output: str, stderr: str, returncode: int) -> LinterResult:
         """Parse linter output."""
         raise NotImplementedError
-

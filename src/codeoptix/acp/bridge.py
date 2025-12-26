@@ -17,7 +17,7 @@ from acp.schema import (
     TextContentBlock,
 )
 
-from codeoptix.acp.code_extractor import extract_code_from_message, extract_all_code
+from codeoptix.acp.code_extractor import extract_all_code, extract_code_from_message
 from codeoptix.acp.registry import ACPAgentRegistry
 from codeoptix.evaluation import EvaluationEngine
 from codeoptix.utils.llm import LLMClient
@@ -51,7 +51,7 @@ class ACPQualityBridge:
         """
         if not agent_command and not agent_name:
             raise ValueError("Either agent_command or agent_name must be provided")
-        
+
         self.agent_command = agent_command
         self.agent_name = agent_name
         self.evaluation_engine = evaluation_engine
@@ -133,7 +133,7 @@ class ACPQualityBridge:
 
         # Extract code from collected updates
         code_blocks = extract_all_code(self._collected_updates)
-        
+
         if not code_blocks:
             logger.debug("No code blocks found in agent response")
             return
@@ -156,10 +156,12 @@ class ACPQualityBridge:
                 # Evaluate code block (synchronous)
                 results = self.bridge._evaluate_code_block(code_content, code_block)
 
-                all_results.append({
-                    "code_block": code_block,
-                    "results": results,
-                })
+                all_results.append(
+                    {
+                        "code_block": code_block,
+                        "results": results,
+                    }
+                )
 
             # Format and send feedback
             feedback = self._format_quality_feedback(all_results)
@@ -173,7 +175,7 @@ class ACPQualityBridge:
             logger.error(f"Error during quality evaluation: {e}")
             await self._connection.session_update(
                 session_id=self._session_id,
-                update=update_agent_message(text_block(f"⚠️ CodeOptiX: Evaluation error: {str(e)}")),
+                update=update_agent_message(text_block(f"⚠️ CodeOptiX: Evaluation error: {e!s}")),
                 source="codeoptix",
             )
 
@@ -187,28 +189,28 @@ class ACPQualityBridge:
             Formatted feedback string
         """
         lines = ["## 🔍 CodeOptiX Quality Report\n"]
-        
+
         for i, result_data in enumerate(results, 1):
             code_block = result_data["code_block"]
             results_dict = result_data["results"]
-            
+
             lines.append(f"### Code Block {i} ({code_block.get('language', 'text')})\n")
-            
+
             if "behaviors" in results_dict:
                 for behavior_name, behavior_data in results_dict["behaviors"].items():
                     passed = behavior_data.get("passed", True)
                     score = behavior_data.get("score", 0.0)
                     emoji = "✅" if passed else "❌"
-                    
+
                     lines.append(f"{emoji} **{behavior_name}**: {score:.2%}")
-                    
+
                     if not passed and behavior_data.get("evidence"):
                         evidence = behavior_data["evidence"][:2]  # Limit to 2 items
                         for ev in evidence:
                             lines.append(f"   - {ev}")
-            
+
             lines.append("")
-        
+
         return "\n".join(lines)
 
     async def close(self) -> None:
@@ -263,7 +265,7 @@ class _BridgeClientImpl(Client):
         from acp.schema import ReadTextFileResponse
 
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 if line is not None:
                     lines = f.readlines()
                     if 0 <= line < len(lines):
@@ -318,13 +320,13 @@ class _BridgeClientImpl(Client):
         """Handle session updates from agent."""
         # Collect updates for code extraction and evaluation
         self._collected_updates.append(update)
-        
+
         # Intercept agent messages for quality evaluation
         if isinstance(update, AgentMessageChunk):
             content = update.content
             if isinstance(content, TextContentBlock):
                 logger.debug(f"Agent message: {content.text[:100]}...")
-                
+
                 # Extract code immediately for real-time feedback
                 if self.bridge.auto_eval and self.bridge.evaluation_engine:
                     code_blocks = extract_code_from_message(update)
@@ -354,7 +356,7 @@ class _BridgeClientImpl(Client):
         """
         if not self.evaluation_engine:
             return {}
-        
+
         # Use evaluation engine's evaluate_behaviors (synchronous)
         try:
             results = self.evaluation_engine.evaluate_behaviors(
@@ -366,9 +368,11 @@ class _BridgeClientImpl(Client):
             logger.error(f"Error in code block evaluation: {e}")
             return {"error": str(e)}
 
-    async def _quick_evaluate_code(self, code_blocks: list[dict[str, str]], session_id: str) -> None:
+    async def _quick_evaluate_code(
+        self, code_blocks: list[dict[str, str]], session_id: str
+    ) -> None:
         """Perform quick evaluation on code blocks for real-time feedback.
-        
+
         Args:
             code_blocks: List of extracted code blocks
             session_id: ACP session ID
@@ -396,4 +400,3 @@ class _BridgeClientImpl(Client):
     def on_connect(self, conn: Any) -> None:
         """Called when client connects to agent."""
         logger.debug("Bridge connected to ACP agent")
-

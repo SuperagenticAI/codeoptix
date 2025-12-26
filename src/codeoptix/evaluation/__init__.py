@@ -1,4 +1,4 @@
-"""Evaluation engine for CodeFlect."""
+"""Evaluation engine for CodeOptix."""
 
 from codeoptix.evaluation.engine import EvaluationEngine
 from codeoptix.evaluation.evaluators import (
@@ -13,11 +13,11 @@ from codeoptix.evaluation.scenario_generator import (
 )
 
 __all__ = [
-    "EvaluationEngine",
-    "ScenarioGenerator",
+    "ArtifactComparator",
     "BloomScenarioGenerator",
+    "EvaluationEngine",
+    "LLMEvaluator",
+    "ScenarioGenerator",
     "StaticAnalyzer",
     "TestRunner",
-    "LLMEvaluator",
-    "ArtifactComparator",
 ]

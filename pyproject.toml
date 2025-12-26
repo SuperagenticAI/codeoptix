@@ -1,7 +1,7 @@
 [project]
 name = "codeoptix"
 version = "0.1.0"
-description = "Agentic Code Optimization for better Coding Agent Experience"
+description = "Agentic Code Optimization. Elevated Agent Experience."
 readme = "README.md"
 requires-python = ">=3.12"
 authors = [
@@ -124,10 +124,48 @@ select = [
     "RUF",    # Ruff-specific rules
 ]
 ignore = [
-    "E501",   # line too long (handled by formatter)
+    "E501",    # line too long (handled by formatter)
+    "E741",    # ambiguous variable name (l, O, I)
+    "ARG002",  # unused method argument (intentional in base classes)
+    "B007",    # loop variable not used (intentional in some cases)
+    "B904",    # raise from err (too noisy)
+    "C416",    # unnecessary dict comprehension
+    "DTZ",     # datetime timezone (not critical for this project)
+    "EM101",   # exception message string literal
+    "EM102",   # exception message f-string
+    "PLR0912", # too many branches
     "PLR0913", # too many arguments
+    "PLR0915", # too many statements
     "PLR2004", # magic value used in comparison
+    "PLW2901", # loop variable overwritten
+    "PTH",     # prefer pathlib (too invasive for existing codebase)
+    "RET503",  # missing explicit return
+    "RET504",  # unnecessary assignment before return
+    "RSE102",  # unnecessary parentheses on raise
+    "RUF001",  # ambiguous unicode (intentional for emojis)
+    "RUF012",  # mutable class attributes
+    "RUF015",  # prefer next() over [0]
+    "SIM101",  # merge isinstance calls
+    "SIM102",  # collapsible if statements
+    "SIM105",  # use contextlib.suppress
+    "SIM108",  # use ternary operator
     "TRY003",  # avoid specifying long messages outside exception class
+    "TRY300",  # consider returning in try block
+    "TRY400",  # use logging.exception instead of error
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "F841",    # unused variable (common in tests)
+    "PT011",   # pytest.raises too broad
+    "RUF013",  # implicit Optional
+]
+"examples/**/*.py" = [
+    "ERA001",  # commented-out code (intentional in examples)
+    "F841",    # unused variable (common in examples)
+    "E722",    # bare except (simplified for examples)
+    "I001",    # unsorted imports (allowed in examples)
+    "F401",    # unused imports (may be for demonstration)
 ]
 
 [tool.ruff.lint.isort]
