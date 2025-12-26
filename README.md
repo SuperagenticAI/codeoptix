@@ -2,6 +2,7 @@
 [![PyPI version](https://badge.fury.io/py/codeoptix.svg)](https://pypi.org/project/codeoptix/)
 [![CI](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml/badge.svg)](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/SuperagenticAI/codeoptix/branch/main/graph/badge.svg)](https://codecov.io/gh/SuperagenticAI/codeoptix)
+[![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://superagenticai.github.io/codeoptix/)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -21,10 +22,7 @@
   <em>Advancing AI agent optimization and autonomous systems</em>
 </p>
 
-[Documentation](https://superagenticai.github.io/codeoptix) |
-[Get Started](#-quick-start) |
-[Examples](https://github.com/SuperagenticAI/codeoptix/tree/main/examples) |
-[Contributing](#-contributing)
+[📚 Documentation](https://superagenticai.github.io/codeoptix/)
 
 </div>
 
