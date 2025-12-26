@@ -1,3 +1,11 @@
+
+[![PyPI version](https://badge.fury.io/py/codeoptix.svg)](https://pypi.org/project/codeoptix/)
+[![CI](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml/badge.svg)](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/SuperagenticAI/codeoptix/branch/main/graph/badge.svg)](https://codecov.io/gh/SuperagenticAI/codeoptix)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
 <div align="center">
 
 <img src="https://raw.githubusercontent.com/SuperagenticAI/codeoptix/main/docs/assets/CodeOptiX_Logo.png" alt="CodeOptiX Logo" width="200">
@@ -8,15 +16,8 @@
 
 *CodeOptiX is the universal code optimization engine that improves coding agent experience with deep evaluations and optimization. When AI coding agents dazzle with impressive code but leave you wondering about quality, maintainability, security, and reliability, CodeOptiX ensures proper behavior through evaluations, reflection, and self-improvement. Powered by GEPA optimization and Bloom scenario generation.*
 
-[![PyPI version](https://badge.fury.io/py/codeoptix.svg)](https://pypi.org/project/codeoptix/)
-[![CI](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml/badge.svg)](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/SuperagenticAI/codeoptix/branch/main/graph/badge.svg)](https://codecov.io/gh/SuperagenticAI/codeoptix)
-[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-
 <p align="center">
-  <em>Built with ❤️ by <a href="https://super-agentic.ai" target="_blank"><strong>Superagentic AI</strong></a></em><br>
+  <em>Brought to you by <a href="https://super-agentic.ai" target="_blank"><strong>Superagentic AI</strong></a></em><br>
   <em>Advancing AI agent optimization and autonomous systems</em>
 </p>
 
@@ -210,7 +211,6 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](https:
 
 - [Documentation](https://superagenticai.github.io/codeoptix)
 - [GitHub Issues](https://github.com/SuperagenticAI/codeoptix/issues)
-- [GitHub Discussions](https://github.com/SuperagenticAI/codeoptix/discussions)
 
 ---
 
