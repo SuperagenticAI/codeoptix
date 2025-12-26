@@ -130,7 +130,7 @@ class HTMLAccessibilityParser(HTMLParser):
 
         if tag == "a":
             if self.links_missing_text:
-                line, col, attrs = self.links_missing_text[-1]
+                _line, _col, attrs = self.links_missing_text[-1]
                 # Only flag as missing if no text AND no aria-label
                 if not text_content and not attrs.get("aria-label"):
                     # Keep as-is; will be converted to issues later
@@ -141,7 +141,7 @@ class HTMLAccessibilityParser(HTMLParser):
 
         if tag == "button":
             if self.buttons_missing_text:
-                line, col, attrs = self.buttons_missing_text[-1]
+                _line, _col, attrs = self.buttons_missing_text[-1]
                 if text_content or attrs.get("aria-label"):
                     # Button has accessible name; drop from missing list
                     self.buttons_missing_text.pop()

@@ -147,6 +147,7 @@ ignore = [
     "DTZ",     # datetime timezone (not critical for this project)
     "EM101",   # exception message string literal
     "EM102",   # exception message f-string
+    "PLC0415", # import should be at top level (too many existing violations)
     "PLR0912", # too many branches
     "PLR0913", # too many arguments
     "PLR0915", # too many statements
