@@ -28,13 +28,32 @@ jobs:
           version: "latest"
 
       - name: Install dependencies
-        run: uv sync --dev
+        run: |
+          uv venv
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            .venv/Scripts/activate
+          else
+            source .venv/bin/activate
+          fi
+          uv pip install -e ".[dev]"
 
       - name: Run ruff linter
-        run: uv run ruff check src/
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            .venv/Scripts/activate
+          else
+            source .venv/bin/activate
+          fi
+          ruff check src/
 
       - name: Run ruff formatter
-        run: uv run ruff format --check src/
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            .venv/Scripts/activate
+          else
+            source .venv/bin/activate
+          fi
+          ruff format --check src/
 
   test:
     name: Test (${{ matrix.os }} / Python ${{ matrix.python-version }})
@@ -59,10 +78,23 @@ jobs:
           version: "latest"
 
       - name: Install dependencies
-        run: uv sync --dev
+        run: |
+          uv venv
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            .venv/Scripts/activate
+          else
+            source .venv/bin/activate
+          fi
+          uv pip install -e ".[dev]"
 
       - name: Run tests
-        run: uv run pytest tests/ -v --cov=src/codeoptix --cov-report=xml --cov-report=term
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            .venv/Scripts/activate
+          else
+            source .venv/bin/activate
+          fi
+          pytest tests/ -v --cov=src/codeoptix --cov-report=xml --cov-report=term
 
       - name: Upload coverage
         uses: codecov/codecov-action@v4
