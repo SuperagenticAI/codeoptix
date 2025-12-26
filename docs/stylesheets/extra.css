@@ -240,23 +240,25 @@ body {
 }
 
 .hero-title {
-  font-size: 5rem;
-  font-weight: 800;
-  margin: 0 0 1.5rem 0;
-  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 50%, var(--gradient-alt-start) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  font-size: 7rem !important;
+  font-weight: 800 !important;
+  margin: 0 0 1rem 0 !important;
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 50%, var(--gradient-alt-start) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.1 !important;
 }
 
 [data-md-color-scheme="slate"] .hero-title {
-  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #f472b6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #f472b6 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
+
+
 
 .hero-tagline {
   font-size: 2rem;
@@ -347,7 +349,7 @@ body {
   }
 
   .hero-title {
-    font-size: 3rem;
+    font-size: 4.5rem;
   }
 
   .hero-tagline {

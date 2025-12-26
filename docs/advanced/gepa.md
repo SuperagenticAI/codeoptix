@@ -8,6 +8,8 @@ CodeOptiX uses GEPA (Genetic-Pareto) to automatically improve agent prompts thro
 
 **GEPA (Genetic-Pareto)** is a framework for optimizing textual system components (like AI prompts, code, or instructions) using LLM-based reflection and evolutionary search. GEPA employs iterative mutation, reflection, and Pareto-aware candidate selection to evolve robust, high-performing variants.
 
+**Learn more:** [GEPA Repository](https://github.com/gepa-ai/gepa)
+
 **Note**: CodeOptiX uses GEPA's `InstructionProposalSignature` component for prompt evolution. This is a minimal integration that uses GEPA's proven instruction proposal mechanism, rather than the full GEPA optimization framework.
 
 ---

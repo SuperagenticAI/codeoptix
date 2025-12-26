@@ -76,7 +76,7 @@ CodeOptiX supports multiple LLM providers. Choose the one that works best for yo
 **No API key required!** Use local Ollama models:
 
 ```bash
-# 1. Install Ollama: https://ollama.ai
+# 1. Install Ollama: https://ollama.com
 # 2. Start Ollama service
 ollama serve
 
@@ -161,7 +161,7 @@ Includes:
 CodeOptiX supports local Ollama models - no API key required!
 
 **Prerequisites:**
-1. Install Ollama: https://ollama.ai
+1. Install Ollama: https://ollama.com
 2. Start Ollama service: `ollama serve`
 3. Pull a model: `ollama pull llama3.1:8b` (or `gpt-oss:120b`, `qwen3:8b`, etc.)
 

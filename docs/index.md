@@ -12,21 +12,19 @@ hide:
   <img src="assets/CodeOptiX_Logo.png" alt="CodeOptiX Logo" class="hero-logo">
 </div>
 
-<h1 class="hero-title">CodeOptiX</h1>
+<h1 class="hero-title" style="font-size: 7rem !important; font-weight: 900 !important; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;">CodeOptiX</h1>
 
-<p class="hero-tagline">Agentic Code Optimization. Elevated Agent Experience.</p>
+<p class="hero-tagline">Agentic Code Optimization & Deep Evaluation for Superior Coding Agent Experience</p>
 
-<p class="hero-description">
-<strong>Code Optimization Engine for every coding agent.</strong><br>
-Powered by Agent Optimizers like GEPA (Genetic-Pareto) and Bloom-style scenario generation for behavior testing.<br>
-<em>Built by <a href="https://super-agentic.ai" target="_blank">Superagentic AI</a></em>
+<p class="hero-description" style="font-size: 0.9rem; opacity: 0.8;">
+<em>Built by <a href="https://super-agentic.ai" target="_blank"><strong>Superagentic AI</strong></a>, Powered by <a href="https://github.com/gepa-ai/gepa" target="_blank">GEPA</a> and <a href="https://github.com/safety-research/bloom" target="_blank">Bloom</a></em>
 </p>
 
 <div class="hero-buttons">
 <a href="getting-started/installation/" class="md-button md-button--primary">
 <span class="twemoji">🚀</span> Get Started
 </a>
-<a href="getting-started/single-behavior-quickstart/" class="md-button">
+<a href="getting-started/quickstart/" class="md-button">
 <span class="twemoji">⚡</span> Quick Start
 </a>
 <a href="https://github.com/SuperagenticAI/codeoptix" class="md-button" target="_blank">
@@ -40,21 +38,20 @@ Powered by Agent Optimizers like GEPA (Genetic-Pareto) and Bloom-style scenario 
 
 ---
 
-## 🎯 The Problem It Solves
+## 🔍 What is CodeOptiX?
 
-When you use AI coding agents (Claude Code, Codex, Gemini CLI, etc.), you face a critical question:
+**CodeOptiX is the universal code optimization engine that improves coding agent experience with deep evaluations and optimization.**
 
-> **"Should I ship this code? Is anything broken?"**
+When AI coding agents dazzle with impressive code but leave you wondering about quality, maintainability, security, and reliability, CodeOptiX ensures proper behavior through evaluations, reflection, and self-improvement. Powered by [GEPA optimization](https://github.com/gepa-ai/gepa) and [Bloom scenario generation](https://github.com/safety-research/bloom).
 
-CodeOptiX answers this by:
+### 🚀 Key Capabilities
 
-- ✅ **Testing for regressions** - Catch breaking changes before they ship
-- ✅ **Evaluating code quality** - Security, test quality, requirements alignment
-- ✅ **Multi-LLM critique** - Get different perspectives on your code
-- ✅ **Optimizing agent prompts** - Automatically improve agent behavior
-- ✅ **Actionable feedback** - Clear, specific recommendations
-
-**When to Use:** Run CodeOptiX **when you're ready to test your code** - after completing a feature or task.
+- 🔍 **Deep Behavioral Evaluation** - Comprehensive testing against security, reliability, and quality behaviors
+- 🧬 **GEPA Optimization Engine** - [Genetic-Pareto Evolution](https://github.com/gepa-ai/gepa) for automatic agent improvement
+- 🌸 **Bloom-Style Scenario Generation** - [Intelligent test case creation](https://github.com/safety-research/bloom) for thorough evaluation
+- 🎯 **Multi-Agent Support** - Works with Claude Code, Codex, Gemini CLI, and custom agents
+- 🔧 **Multi-Provider LLM Support** - OpenAI, Anthropic, Google, and Ollama (local models included!)
+- ⚡ **CI/CD Integration** - Automated quality gates and GitHub Actions support
 
 !!! tip "Ollama Support - No API Key Required!"
     **CodeOptiX now supports Ollama** - use local models without API keys:
@@ -79,14 +76,14 @@ pip install codeoptix
 # 2. Option A: Use Ollama (No API key!)
 ollama serve
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --llm-provider ollama
 
 # 2. Option B: Use cloud provider (requires API key)
 export OPENAI_API_KEY="your-key-here"
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --llm-provider openai
 ```
@@ -519,10 +516,10 @@ pip install -e .
 
 ### Getting Started
 
-- [Installation](getting-started/installation/) - Set up CodeOptiX
-- [Single Behavior Quickstart](getting-started/single-behavior-quickstart/) - Perfect for first-time users
-- [Quick Start](getting-started/quickstart/) - Your first evaluation
-- [Your First Evaluation](getting-started/first-evaluation/) - Step-by-step guide
+- [Installation](getting-started/installation.md) - Set up CodeOptiX
+- [Quick Start](getting-started/quickstart.md) - Your first evaluation (free with Ollama!)
+- [Single Behavior Quickstart](getting-started/single-behavior-quickstart.md) - Simple API key-based testing
+- [Your First Evaluation](getting-started/first-evaluation.md) - Step-by-step guide
 
 ### Core Concepts
 
@@ -617,8 +614,8 @@ See `examples/configs/` directory in the repository for configuration examples.
 <span class="twemoji">🚀</span> Get Started
 </a>
 
-<a href="getting-started/single-behavior-quickstart/" class="md-button md-button--primary">
-<span class="twemoji">⚡</span> Single Behavior Quickstart
+<a href="getting-started/quickstart/" class="md-button md-button--primary">
+<span class="twemoji">⚡</span> Quick Start
 </a>
 
 <a href="https://github.com/SuperagenticAI/codeoptix/tree/main/examples" class="md-button" target="_blank">
@@ -642,6 +639,19 @@ See `examples/configs/` directory in the repository for configuration examples.
 ## 📄 License
 
 Apache License 2.0. See [LICENSE](https://github.com/SuperagenticAI/codeoptix/blob/main/LICENSE) for details.
+
+---
+
+## 🤖 About Superagentic AI
+
+**CodeOptiX is proudly built by [Superagentic AI](https://super-agentic.ai)** - *Advancing the future of AI agent optimization and autonomous systems.*
+
+### Our Mission
+We're pioneering intelligent agent optimization technologies to enhance developer productivity and code quality. CodeOptiX represents our commitment to building tools that make AI coding assistants more reliable, efficient, and trustworthy.
+
+### Explore More
+- **[Visit Superagentic AI](https://super-agentic.ai)** - Learn about our mission and vision
+- **[Our GitHub](https://github.com/SuperagenticAI)** - Discover our other AI agent projects
 
 ---
 

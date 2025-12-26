@@ -4,9 +4,9 @@
 
 # CodeOptiX
 
-**Agentic Code Optimization. Elevated Agent Experience.**
+**Agentic Code Optimization & Deep Evaluation for Superior Coding Agent Experience**
 
-*Code Optimization Engine for every coding agent. Powered by Agent Optimizers like GEPA (Genetic-Pareto) and Bloom-style scenario generation for behavior testing.*
+*CodeOptiX is the universal code optimization engine that improves coding agent experience with deep evaluations and optimization. When AI coding agents dazzle with impressive code but leave you wondering about quality, maintainability, security, and reliability, CodeOptiX ensures proper behavior through evaluations, reflection, and self-improvement. Powered by GEPA optimization and Bloom scenario generation.*
 
 [![PyPI version](https://badge.fury.io/py/codeoptix.svg)](https://pypi.org/project/codeoptix/)
 [![CI](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml/badge.svg)](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml)
@@ -14,6 +14,11 @@
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+<p align="center">
+  <em>Built with ❤️ by <a href="https://super-agentic.ai" target="_blank"><strong>Superagentic AI</strong></a></em><br>
+  <em>Advancing AI agent optimization and autonomous systems</em>
+</p>
 
 [Documentation](https://superagenticai.github.io/codeoptix) |
 [Get Started](#-quick-start) |
@@ -26,16 +31,20 @@
 
 ## What is CodeOptiX?
 
-CodeOptiX is an **open-source agentic code optimization platform** for evaluating, testing, and improving AI coding agents. Built by [Superagentic AI](https://super-agentic.ai).
+**CodeOptiX is the universal code optimization engine that improves coding agent experience with deep evaluations and optimization.**
 
-### Key Features
+When AI coding agents dazzle with impressive code but leave you wondering about quality, maintainability, security, and reliability, CodeOptiX ensures proper behavior through evaluations, reflection, and self-improvement. Powered by GEPA optimization and Bloom scenario generation.
 
-- **GEPA Optimization** - Automatically improve agent behavior using Genetic-Pareto Evolution
-- **Bloom Evaluations** - Deep behavioral evaluation with Bloom-style scenario generation
-- **Behavior Testing** - Test coding agents against configurable behavior specifications
-- **Agent-Agnostic** - Works with Claude Code, Codex, Gemini CLI, and any ACP-compatible agent
-- **Multi-Provider** - Supports OpenAI, Anthropic, Google, and Ollama (local, no API key!)
-- **CI/CD Ready** - GitHub Actions integration for automated quality gates
+Built by [**Superagentic AI**](https://super-agentic.ai) - *Advancing the future of AI agent optimization and autonomous systems.*
+
+### 🚀 Key Capabilities
+
+- **🔍 Deep Behavioral Evaluation** - Comprehensive testing against security, reliability, and quality behaviors
+- **🧬 GEPA Optimization Engine** - [Genetic-Pareto Evolution](https://github.com/gepa-ai/gepa) for automatic agent improvement
+- **🌸 Bloom-Style Scenario Generation** - [Intelligent test case creation](https://github.com/safety-research/bloom) for thorough evaluation
+- **🎯 Multi-Agent Support** - Works with Claude Code, Codex, Gemini CLI, and custom agents
+- **🔧 Multi-Provider LLM Support** - OpenAI, Anthropic, Google, and Ollama (local models included!)
+- **⚡ CI/CD Integration** - Automated quality gates and GitHub Actions support
 
 ---
 
@@ -207,6 +216,17 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](https:
 
 <div align="center">
 
-**Brought to you by [Superagentic AI](https://super-agentic.ai)**
+## 🤖 About Superagentic AI
+
+**CodeOptiX is proudly built by [Superagentic AI](https://super-agentic.ai)**
+
+*Advancing AI agent optimization and autonomous systems for the future of software development.*
+
+### 🌟 Our Mission
+We're building the next generation of AI tools that enhance developer productivity and code quality through intelligent agent optimization.
+
+### 🚀 Explore More
+- **[Superagentic AI Website](https://super-agentic.ai)** - Learn about our mission
+- **[Our Projects](https://github.com/SuperagenticAI)** - Discover other AI agent tools
 
 </div>

@@ -14,92 +14,176 @@ pip install codeoptix
 
 ---
 
-## Step 2: Set Your API Key
+## Step 2: Choose Your Setup
 
-!!! important "API Key Required for Full Features"
-    **Without an API key**, CodeOptiX will only run basic static linters (ruff, bandit, flake8, etc.).
-    
-    **To unlock the full power** of CodeOptiX (behavioral evaluation, agent optimization, multi-LLM critique), **you must set an API key**.
-    
-    **We strongly recommend setting up an API key** to experience CodeOptiX's full capabilities.
+### Option A: Ollama (Free, No API Key Required) 🆓
 
-Set your OpenAI API key (or use Anthropic/Google):
+**Perfect for getting started!** Use local Ollama models - no API keys, no costs, works offline.
+
+```bash
+# Install Ollama (https://ollama.com)
+# macOS: brew install ollama
+# Linux: curl -fsSL https://ollama.com/install.sh | sh
+
+# Start Ollama
+ollama serve
+
+# Pull a model (in another terminal)
+ollama pull llama3.2:3b
+
+# Run evaluation
+codeoptix eval \
+  --agent basic \
+  --behaviors insecure-code \
+  --llm-provider ollama
+```
+
+### Option B: Cloud Providers (Requires API Key) ☁️
+
+Use OpenAI, Anthropic, or Google models for more advanced evaluations.
+
+Set your API key:
 
 ```bash
 export OPENAI_API_KEY="sk-your-api-key-here"
+# OR
+export ANTHROPIC_API_KEY="sk-ant-your-api-key-here"
+# OR
+export GOOGLE_API_KEY="your-api-key-here"
 ```
 
 ---
 
 ## Step 3: Run Your First Evaluation
 
-Evaluate an agent for security issues:
+!!! tip "Start with Ollama - It's Free & Works Offline!"
+    **Recommended for first-time users!** Skip API keys and start evaluating immediately.
+
+### Quick Test with Ollama (Recommended)
 
 ```bash
 codeoptix eval \
-  --agent codex \
+  --agent basic \
   --behaviors insecure-code \
-  --llm-provider openai
+  --llm-provider ollama
 ```
 
-This command:
+**Expected Output:**
+```
+🔍 CodeOptiX Evaluation
+============================================================
+📊 Agent: basic
+📋 Behavior(s): insecure-code
+✅ Adapter created: basic
+🧠 Using local Ollama provider.
 
-- ✅ Creates a Codex adapter
-- ✅ Generates test scenarios
-- ✅ Evaluates the agent's code
-- ✅ Saves results to `.codeoptix/artifacts/results_*.json`
+🚀 Running evaluation...
+============================================================
+✅ Evaluation Complete!
+============================================================
+📊 Overall Score: 85.71%
+📁 Results: .codeoptix/artifacts/results_*.json
+```
+
+### Advanced Evaluation with Cloud Providers
+
+For more advanced analysis using latest models:
+
+```bash
+# OpenAI GPT-5.2
+codeoptix eval \
+  --agent basic \
+  --behaviors insecure-code \
+  --llm-provider openai
+
+# Anthropic Claude Opus 4.5
+codeoptix eval \
+  --agent claude-code \
+  --behaviors insecure-code \
+  --llm-provider anthropic
+```
+
+### What Happens During Evaluation
+
+**All commands will:**
+
+- **✅ Create the specified agent adapter**
+  - Sets up the evaluation environment
+- **✅ Generate test scenarios**
+  - Creates diverse security test cases automatically
+- **✅ Run behavioral analysis**
+  - Evaluates the agent against each scenario
+- **✅ Save detailed results**
+  - Stores everything in `.codeoptix/artifacts/results_*.json`
 
 ---
 
-## Step 4: View Results
+## Step 4: Check Your Results
 
-Check the results:
+### View Evaluation Summary
+
+CodeOptiX automatically saves results. Check them:
 
 ```bash
-# List all runs
+# List all evaluation runs
 codeoptix list-runs
 
-# View the latest results file
+# View detailed results (requires jq for pretty printing)
 cat .codeoptix/artifacts/results_*.json | jq .
 ```
 
-You'll see output like:
+### Understanding Your Results
 
+**High Score (80-100%)**: Your agent performs well on security evaluation
+**Medium Score (50-79%)**: Some security issues detected - review recommendations
+**Low Score (0-49%)**: Significant security concerns - needs improvement
+
+**Sample Results:**
 ```json
 {
-  "run_id": "abc123",
-  "overall_score": 0.75,
+  "run_id": "7d42c92c",
+  "overall_score": 0.857,  // 85.7% - Good performance!
   "behaviors": {
     "insecure-code": {
-      "score": 0.75,
-      "passed": true,
-      "evidence": []
+      "score": 0.857,
+      "passed": true,        // ✅ Evaluation passed
+      "evidence": []         // No critical issues found
     }
   }
 }
 ```
 
+**Key Metrics:**
+- **`overall_score`**: 0.0 to 1.0 (higher is better)
+- **`passed`**: `true` if behavior requirements met
+- **`evidence`**: Specific issues or examples found
+
 ---
 
-## Step 5: Generate Reflection
+## Step 5: Generate Reflection Report
 
-Understand why the agent behaved the way it did:
+Get deep insights into your agent's performance:
 
 ```bash
 codeoptix reflect --input .codeoptix/artifacts/results_*.json
 ```
 
-This generates a reflection report explaining:
-- What went well
-- What needs improvement
-- Root causes of issues
-- Recommendations
+**This generates a comprehensive reflection report explaining:**
+
+- **✅ What went well**
+  - Analysis of successful behaviors and patterns
+- **🔍 What needs improvement**
+  - Identification of problematic patterns
+- **🔧 Root causes of issues**
+  - Deep analysis of why problems occurred
+- **💡 Actionable recommendations**
+  - Specific suggestions for improvement
 
 ---
 
-## Step 6: Evolve the Agent (Optional)
+## Step 6: Evolve the Agent (Advanced)
 
-Improve the agent's prompts automatically:
+Automatically improve your agent's prompts using AI:
 
 ```bash
 codeoptix evolve \
@@ -107,45 +191,59 @@ codeoptix evolve \
   --iterations 2
 ```
 
-This will:
-- Analyze the evaluation results
-- Generate improved prompts
-- Test the new prompts
-- Save evolved prompts to `.codeoptix/artifacts/evolved_prompts_*.yaml`
+**Evolution Process:**
+
+- **🔍 Analyzes evaluation results**
+  - Identifies patterns and issues
+- **🧠 Generates improved prompts**
+  - Uses GEPA optimization algorithm
+- **🧪 Tests new prompts**
+  - Validates improvements work
+- **💾 Saves evolved prompts**
+  - Stores in `.codeoptix/artifacts/evolved_prompts_*.yaml`
+
+!!! note "Evolution requires API keys"
+    This advanced feature needs cloud LLM access for the optimization process.
 
 ---
 
-## Complete Example
+## Complete Python Example
 
-Here's a complete example using the Python API:
+Here's a complete example using Ollama (no API keys needed):
 
 ```python
-import os
 from codeoptix.adapters.factory import create_adapter
 from codeoptix.evaluation import EvaluationEngine
 from codeoptix.utils.llm import create_llm_client, LLMProvider
 
-# 1. Create an adapter
-adapter = create_adapter("codex", {
+# 1. Create a basic adapter with Ollama
+adapter = create_adapter("basic", {
     "llm_config": {
-        "provider": "openai",
-        "api_key": os.getenv("OPENAI_API_KEY"),
+        "provider": "ollama",
+        "model": "llama3.2:3b"  # Use any installed Ollama model
     }
 })
 
 # 2. Create evaluation engine
-llm_client = create_llm_client(LLMProvider.OPENAI)
+llm_client = create_llm_client(LLMProvider.OLLAMA)
 engine = EvaluationEngine(adapter, llm_client)
 
 # 3. Evaluate behaviors
 results = engine.evaluate_behaviors(
-    behavior_names=["insecure-code", "vacuous-tests"]
+    behavior_names=["insecure-code"]
 )
 
 # 4. Print results
-print(f"Overall Score: {results['overall_score']:.2f}")
+print(f"Overall Score: {results['overall_score']:.1%}")
 for behavior_name, behavior_data in results['behaviors'].items():
-    print(f"{behavior_name}: {behavior_data['score']:.2f}")
+    status = "✅ PASS" if behavior_data['passed'] else "❌ FAIL"
+    print(f"{behavior_name}: {behavior_data['score']:.1%} {status}")
+```
+
+**Expected Output:**
+```
+Overall Score: 85.7%
+insecure-code: 85.7% ✅ PASS
 ```
 
 ---

@@ -18,17 +18,17 @@ CodeOptiX supports local Ollama models, allowing you to run evaluations without 
 
 ### Step 1: Install Ollama
 
-Visit https://ollama.ai and install Ollama for your platform:
+Visit https://ollama.com and install Ollama for your platform:
 
 ```bash
 # macOS
 brew install ollama
 
 # Linux
-curl -fsSL https://ollama.ai/install.sh | sh
+curl -fsSL https://ollama.com/install.sh | sh
 
 # Windows
-# Download from https://ollama.ai/download
+# Download from https://ollama.com/download
 ```
 
 ### Step 2: Start Ollama Service
@@ -65,7 +65,7 @@ ollama list
 
 ```bash
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --llm-provider ollama
 ```
@@ -95,7 +95,7 @@ Run:
 
 ```bash
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --config ollama-config.yaml \
   --llm-provider ollama
@@ -119,7 +119,7 @@ adapter:
 
 ```bash
 export CODEOPTIX_LLM_PROVIDER=ollama
-codeoptix eval --agent claude-code --behaviors insecure-code
+codeoptix eval --agent basic --behaviors insecure-code
 ```
 
 ### Custom Ollama URL
@@ -166,7 +166,7 @@ ollama pull <model-name>
 
 ```bash
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --llm-provider ollama
 ```
@@ -175,7 +175,7 @@ codeoptix eval \
 
 ```bash
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --config examples/configs/ollama-insecure-code.yaml \
   --llm-provider ollama
@@ -185,7 +185,7 @@ codeoptix eval \
 
 ```bash
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code,vacuous-tests \
   --llm-provider ollama
 ```
@@ -194,7 +194,7 @@ codeoptix eval \
 
 ```bash
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --llm-provider ollama \
   --verbose
@@ -216,14 +216,14 @@ jobs:
           python-version: '3.12'
       - name: Install Ollama
         run: |
-          curl -fsSL https://ollama.ai/install.sh | sh
+          curl -fsSL https://ollama.com/install.sh | sh
           ollama pull llama3.1:8b
       - name: Install CodeOptiX
         run: pip install codeoptix
       - name: Run CodeOptiX
         run: |
           codeoptix ci \
-            --agent claude-code \
+            --agent basic \
             --behaviors insecure-code \
             --llm-provider ollama \
             --fail-on-failure

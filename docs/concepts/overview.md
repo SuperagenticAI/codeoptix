@@ -2,17 +2,20 @@
 
 Understanding the fundamental concepts behind CodeOptiX.
 
-> **Agentic Code Optimization. Elevated Agent Experience.** Code Optimization Engine for every coding agent. Powered by Agent Optimizers like GEPA (Genetic-Pareto) and Bloom-style scenario generation for behavior testing.
+> **Agentic Code Optimization & Deep Evaluation for Superior Coding Agent Experience.** CodeOptiX is the universal code optimization engine that improves coding agent experience with deep evaluations and optimization. When AI coding agents dazzle with impressive code but leave you wondering about quality, maintainability, security, and reliability, CodeOptiX ensures proper behavior through evaluations, reflection, and self-improvement.
 
 ---
 
 ## What is CodeOptiX?
 
-CodeOptiX is an **agentic code optimization platform** for AI coding agents. It helps you:
+CodeOptiX is an **advanced evaluation and optimization platform** for AI coding agents. It provides comprehensive testing, analysis, and improvement capabilities to ensure your coding agents produce high-quality, reliable code.
 
-- ✅ **Evaluate** agent behavior
-- ✅ **Reflect** on results
-- ✅ **Evolve** agent prompts
+### Key Capabilities
+
+- 🔍 **Deep Evaluation** - Comprehensive behavioral testing of coding agents
+- 📊 **Detailed Analysis** - In-depth performance metrics and issue identification
+- 🧠 **Smart Optimization** - [GEPA](https://github.com/gepa-ai/gepa)-powered prompt evolution and improvement
+- 🎯 **Quality Assurance** - Automated testing against security, reliability, and correctness behaviors
 
 ---
 

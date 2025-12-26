@@ -8,6 +8,8 @@ CodeOptiX integrates the Bloom framework for advanced scenario generation in beh
 
 Bloom is an open-source framework originally developed by Anthropic for automated behavior evaluation of large language models. It provides sophisticated patterns for ideation, scenario generation, and behavioral testing.
 
+**Learn more:** [Bloom Repository](https://github.com/safety-research/bloom)
+
 ### Why Bloom?
 
 Bloom excels at:

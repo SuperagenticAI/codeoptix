@@ -224,6 +224,15 @@ We provide example configs for single behaviors:
 - `examples/configs/single-behavior-vacuous-tests.yaml` - Test quality
 - `examples/configs/single-behavior-plan-drift.yaml` - Requirements alignment
 
+## Next Steps
+
+Ready for more advanced usage?
+
+- **[Quick Start](../quickstart.md)** - Comprehensive guide with Ollama support
+- **[Your First Evaluation](../first-evaluation.md)** - Detailed step-by-step walkthrough
+- **[Core Concepts](../../concepts/overview.md)** - Understand how CodeOptiX works
+- **[Python API Guide](../../guides/python-api.md)** - Advanced Python usage
+
 ## Getting Help
 
 - 📖 [Full Documentation](../index.md)

@@ -1,5 +1,5 @@
 site_name: CodeOptiX Documentation
-site_description: Code Optimization Engine for every coding agent. Powered by Agent Optimizers like GEPA (Genetic-Pareto) and Bloom-style scenario generation for behavior testing.
+site_description: The universal code optimization engine that improves coding agent experience with deep evaluations and optimization. When AI coding agents dazzle with impressive code but leave you wondering about quality, maintainability, security, and reliability, CodeOptiX ensures proper behavior through evaluations, reflection, and self-improvement.
 site_author: Superagentic AI
 site_url: https://superagenticai.github.io/codeoptix
 

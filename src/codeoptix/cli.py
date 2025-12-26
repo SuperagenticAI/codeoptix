@@ -26,7 +26,12 @@ from codeoptix.utils.llm import LLMProvider, create_llm_client
 @click.group()
 @click.version_option(version="0.1.0")
 def main():
-    """CodeOptiX - Agentic Code Optimization. Elevated Agent Experience. Code Optimization Engine for every coding agent."""
+    """CodeOptiX - Agentic Code Optimization & Deep Evaluation for Superior Coding Agent Experience.
+
+    The universal code optimization engine that improves coding agent experience with deep evaluations and optimization. When AI coding agents dazzle with impressive code but leave you wondering about quality, maintainability, security, and reliability, CodeOptiX ensures proper behavior through evaluations, reflection, and self-improvement.
+
+    Built by Superagentic AI - Advancing AI agent optimization and autonomous systems.
+    """
 
 
 @main.command()
@@ -91,7 +96,7 @@ def eval(agent, behaviors, output, config, llm_provider, llm_api_key, context, f
     click.echo(f"📊 Agent: {agent}")
     click.echo(f"📋 Behavior(s): {', '.join(behavior_list)}")
     if len(behavior_list) == 1:
-        click.echo("   ℹ️  Single behavior mode - perfect for getting started!")
+        click.echo("   [INFO] Single behavior mode - perfect for getting started!")
 
     # Load config if provided
     eval_config = {}
@@ -214,7 +219,7 @@ def eval(agent, behaviors, output, config, llm_provider, llm_api_key, context, f
             )
             sys.exit(1)
     else:
-        click.echo("🧠 Using local Ollama provider (no API key required).")
+        click.echo("🧠 Using local Ollama provider.")
 
     try:
         llm_client = create_llm_client(llm_provider_enum, api_key=api_key)

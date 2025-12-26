@@ -339,5 +339,5 @@ Generate code using registered adapters.
 
 ---
 
-For more details, see the [full API documentation](API.md).
+For usage examples, see the [Python API Guide](../guides/python-api.md).
 

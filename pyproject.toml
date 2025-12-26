@@ -1,7 +1,7 @@
 [project]
 name = "codeoptix"
 version = "0.1.0"
-description = "Agentic Code Optimization. Elevated Agent Experience."
+description = "Agentic Code Optimization & Deep Evaluation for Superior Coding Agent Experience. Built by Superagentic AI."
 readme = "README.md"
 requires-python = ">=3.12"
 authors = [
@@ -13,16 +13,20 @@ maintainers = [
     {name = "Shashi Jagtap", email = "shashikant.jagtap@icloud.com"}
 ]
 license = {text = "Apache-2.0"}
-keywords = ["ai", "coding-agents", "behavioral-optimization", "code-evaluation"]
-urls = {Homepage = "https://github.com/SuperagenticAI/codeoptix"}
+keywords = ["ai", "coding-agents", "behavioral-optimization", "code-evaluation", "agent-experience", "deep-evaluation", "agentic-coding"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Operating System :: OS Independent",
+    "Framework :: Pydantic",
 ]
 
 dependencies = [
@@ -33,11 +37,18 @@ dependencies = [
     "openai>=2.0.0",
     "google-genai>=0.8.0",
     "numpy>=1.24.0",
-    "litellm>=1.0.0",
+    "litellm>=1.80.0",
     "tenacity>=8.0.0",
     "gepa==0.0.22",
     "agent-client-protocol>=0.7.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/SuperagenticAI/codeoptix"
+Documentation = "https://superagenticai.github.io/codeoptix"
+Repository = "https://github.com/SuperagenticAI/codeoptix"
+Issues = "https://github.com/SuperagenticAI/codeoptix/issues"
+Changelog = "https://github.com/SuperagenticAI/codeoptix/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = [
@@ -59,6 +70,10 @@ docs = [
     "mkdocs-material>=9.4.0",
     "pymdown-extensions>=10.0.0",
     "mkdocs-minify-plugin>=0.7.0",
+    "hatchling",
+]
+all = [
+    "codeoptix[dev,testing,docs]",
 ]
 accessibility = [
     # Note: pa11y is a Node.js tool, not a Python package
@@ -69,11 +84,8 @@ accessibility = [
 codeoptix = "codeoptix.cli:main"
 
 [build-system]
-requires = ["setuptools>=68.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.packages.find]
-where = ["src"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
 line-length = 100

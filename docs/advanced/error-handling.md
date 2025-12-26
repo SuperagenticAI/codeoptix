@@ -205,5 +205,5 @@ config = {
 
 - [Python API Guide](../guides/python-api.md) - Error handling in Python
 - [CLI Usage Guide](../guides/cli-usage.md) - CLI error handling
-- [Package Distribution](distribution.md) - Distribution setup
+- [Configuration Guide](../guides/configuration.md) - Error handling configuration
 
