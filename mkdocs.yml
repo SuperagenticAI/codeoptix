@@ -101,14 +101,17 @@ nav:
     - ACP Integration: guides/acp-integration.md
     - Custom Behaviors: guides/custom-behaviors.md
     - Ollama Integration: guides/ollama-integration.md
+    - Performance Testing: guides/performance-testing.md
+    - UI Testing: guides/ui-testing.md
   - Advanced:
     - GEPA Integration: advanced/gepa.md
     - Bloom Integration: advanced/bloom.md
     - Error Handling: advanced/error-handling.md
+    - Performance: advanced/performance.md
   - API Reference: api-reference.md
   - Examples:
     - Behavioral Spec Example: examples/behavioral-spec.md
     - GEPA Demonstration: examples/gepa-demo.md
     - Basic Adapter Usage: examples/adapter-usage.md
-  - Contributing: contributing.md
+    - ACP Integration Examples: examples/acp-integration-examples.md
 

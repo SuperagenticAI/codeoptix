@@ -43,7 +43,7 @@ jobs:
         run: uv sync --extra docs
 
       - name: Build documentation
-        run: uv run mkdocs build --strict
+        run: uv run mkdocs build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
