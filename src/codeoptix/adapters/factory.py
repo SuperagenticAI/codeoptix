@@ -3,6 +3,7 @@
 from typing import Any
 
 from codeoptix.adapters.base import AgentAdapter
+from codeoptix.adapters.basic import BasicAdapter
 from codeoptix.adapters.claude_code import ClaudeCodeAdapter
 from codeoptix.adapters.codex import CodexAdapter
 from codeoptix.adapters.gemini_cli import GeminiCLIAdapter
@@ -13,7 +14,7 @@ def create_adapter(adapter_type: str, config: dict[str, Any]) -> AgentAdapter:
     Factory function to create an agent adapter.
 
     Args:
-        adapter_type: Type of adapter ("claude-code", "codex", "gemini-cli")
+        adapter_type: Type of adapter ("basic", "claude-code", "codex", "gemini-cli")
         config: Configuration dictionary for the adapter
 
     Returns:
@@ -23,6 +24,7 @@ def create_adapter(adapter_type: str, config: dict[str, Any]) -> AgentAdapter:
         ValueError: If adapter_type is not supported
     """
     adapter_map = {
+        "basic": BasicAdapter,
         "claude-code": ClaudeCodeAdapter,
         "codex": CodexAdapter,
         "gemini-cli": GeminiCLIAdapter,
@@ -34,7 +36,7 @@ def create_adapter(adapter_type: str, config: dict[str, Any]) -> AgentAdapter:
         raise ValueError(
             f"Unsupported adapter type: '{adapter_type}'. "
             f"Supported types: {supported}. "
-            f"Please check the agent name and try again."
+            f"For testing without external agents, use 'basic'."
         )
 
     try:

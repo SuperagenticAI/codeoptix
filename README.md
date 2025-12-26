@@ -6,7 +6,7 @@
 
 **Agentic Code Optimization. Elevated Agent Experience.**
 
-*GEPA optimization, Bloom evals, and behavior testing for coding agents*
+*Code Optimization Engine for every coding agent. Powered by Agent Optimizers like GEPA (Genetic-Pareto) and Bloom-style scenario generation for behavior testing.*
 
 [![PyPI version](https://badge.fury.io/py/codeoptix.svg)](https://pypi.org/project/codeoptix/)
 [![CI](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml/badge.svg)](https://github.com/SuperagenticAI/codeoptix/actions/workflows/ci.yml)
@@ -61,7 +61,7 @@ ollama serve
 
 # Run evaluation with local model
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --llm-provider ollama
 ```

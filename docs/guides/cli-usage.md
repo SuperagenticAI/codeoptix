@@ -29,7 +29,7 @@ codeoptix eval \
 ```
 
 **Options:**
-- `--agent` (required): Agent type (`claude-code`, `codex`, `gemini-cli`)
+- `--agent` (required): Agent type (`basic`, `claude-code`, `codex`, `gemini-cli`)
 - `--behaviors` (required): Comma-separated behavior names
 - `--output`: Output file path (default: `results.json`)
 - `--config`: Path to config file (JSON/YAML)
@@ -37,6 +37,11 @@ codeoptix eval \
 - `--llm-api-key`: API key (or set environment variable)
 - `--context`: Path to context file with plan/requirements (JSON)
 - `--fail-on-failure`: Exit with error code if behaviors fail
+
+!!! info "Agent vs LLM Provider"
+    - **`--agent`**: Specifies the agent interface/personality (prompts, evaluation style)
+    - **`--llm-provider`**: Specifies which LLM service powers the agent
+    - Example: `--agent basic --llm-provider ollama` uses simple prompts with Ollama models
 
 **Available behaviors:**
 

@@ -84,10 +84,10 @@ ollama serve
 ollama pull llama3.1:8b
 
 # 4. Use in CodeOptiX
-codeoptix eval --agent claude-code --behaviors insecure-code --llm-provider ollama
+codeoptix eval --agent basic --behaviors insecure-code --llm-provider ollama
 ```
 
-**See [Ollama Integration](../../examples/OLLAMA_TEST_RESULTS.md) for detailed setup.**
+**See [Ollama Integration Guide](../../guides/ollama-integration.md) for detailed setup.**
 
 ### Option 2: Cloud Providers (Requires API Keys)
 
@@ -168,7 +168,7 @@ CodeOptiX supports local Ollama models - no API key required!
 **Usage:**
 ```bash
 codeoptix eval \
-  --agent claude-code \
+  --agent basic \
   --behaviors insecure-code \
   --llm-provider ollama \
   --config examples/configs/ollama-insecure-code.yaml
@@ -179,11 +179,11 @@ codeoptix eval \
 adapter:
   llm_config:
     provider: ollama
-    model: llama3.1:8b  # Or gpt-oss:120b, qwen3:8b, etc.
+    model: llama3.2:3b  # Or llama3.1:8b, gpt-oss:120b, qwen3:8b, etc.
     # No api_key needed!
 ```
 
-**See [Ollama Integration Guide](../../examples/OLLAMA_TEST_RESULTS.md) for detailed setup and examples.**
+**See [Ollama Integration Guide](../../guides/ollama-integration.md) for detailed setup and examples.**
 
 ---
 

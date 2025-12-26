@@ -2,7 +2,7 @@
 
 Understanding the fundamental concepts behind CodeOptiX.
 
-> **Agentic Code Optimization. Elevated Agent Experience.**
+> **Agentic Code Optimization. Elevated Agent Experience.** Code Optimization Engine for every coding agent. Powered by Agent Optimizers like GEPA (Genetic-Pareto) and Bloom-style scenario generation for behavior testing.
 
 ---
 

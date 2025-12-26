@@ -26,7 +26,7 @@ from codeoptix.utils.llm import LLMProvider, create_llm_client
 @click.group()
 @click.version_option(version="0.1.0")
 def main():
-    """CodeOptiX - Agentic Code Optimization Platform with Quality Engineering Embedded."""
+    """CodeOptiX - Agentic Code Optimization. Elevated Agent Experience. Code Optimization Engine for every coding agent."""
 
 
 @main.command()

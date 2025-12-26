@@ -14,11 +14,11 @@ hide:
 
 <h1 class="hero-title">CodeOptiX</h1>
 
-<p class="hero-tagline">Agentic Code Optimization Platform</p>
+<p class="hero-tagline">Agentic Code Optimization. Elevated Agent Experience.</p>
 
 <p class="hero-description">
-<strong>Evaluate, test, and optimize AI-generated code before you ship.</strong><br>
-Powered by GEPA (Genetic-Pareto) optimization and Bloom-style scenario generation.<br>
+<strong>Code Optimization Engine for every coding agent.</strong><br>
+Powered by Agent Optimizers like GEPA (Genetic-Pareto) and Bloom-style scenario generation for behavior testing.<br>
 <em>Built by <a href="https://super-agentic.ai" target="_blank">Superagentic AI</a></em>
 </p>
 
