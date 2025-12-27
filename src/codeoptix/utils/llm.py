@@ -250,7 +250,7 @@ class OllamaClient(LLMClient):
         """Generate a chat completion using a local Ollama model."""
         payload = {
             "model": model,
-            "messages": messages,
+            "prompt": messages[0]["content"],  # Use first message content as prompt
             "stream": False,
             "options": {
                 "temperature": temperature,
@@ -261,7 +261,7 @@ class OllamaClient(LLMClient):
 
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
-            f"{self.base_url}/api/chat",
+            f"{self.base_url}/api/generate",
             data=data,
             headers={"Content-Type": "application/json"},
             method="POST",
@@ -290,12 +290,8 @@ class OllamaClient(LLMClient):
         except json.JSONDecodeError as exc:  # pragma: no cover - unexpected response
             raise RuntimeError(f"Invalid JSON from Ollama: {body!r}") from exc
 
-        # Ollama chat API: response["message"]["content"]
-        message = obj.get("message") or {}
-        content = message.get("content")
-        if isinstance(content, str):
-            return content
-        return str(content) if content is not None else ""
+        # Ollama generate API: response["response"]
+        return obj.get("response", "")
 
     def get_available_models(self) -> list[str]:
         """Get available Ollama models via /api/tags."""

@@ -45,6 +45,10 @@ Built by [**Superagentic AI**](https://super-agentic.ai) - *Advancing the future
 - **🔧 Multi-Provider LLM Support** - OpenAI, Anthropic, Google, and Ollama (local models included!)
 - **⚡ CI/CD Integration** - Automated quality gates and GitHub Actions support
 
+### 📋 Open Source Limitations
+
+The open source version provides core evaluation capabilities. Advanced features like agent evolution and optimization have limited support. For full optimization capabilities tailored to your needs, please get in touch.
+
 ---
 
 ## Quick Start

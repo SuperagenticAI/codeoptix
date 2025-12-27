@@ -5,4 +5,4 @@ The universal code optimization engine that improves coding agent experience wit
 Built by Superagentic AI - Advancing AI agent optimization and autonomous systems.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"

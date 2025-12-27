@@ -371,7 +371,13 @@ def reflect(input, output, agent_name):
 )
 @click.option("--iterations", default=3, help="Number of evolution iterations")
 @click.option("--config", type=click.Path(exists=True), help="Path to config file (JSON/YAML)")
-def evolve(input, reflection, output, iterations, config):
+@click.option(
+    "--llm-provider",
+    default="openai",
+    help="LLM provider for evolution (anthropic, openai, google, ollama)",
+)
+@click.option("--llm-api-key", help="API key for LLM (or set environment variable)")
+def evolve(input, reflection, output, iterations, config, llm_provider, llm_api_key):
     """Evolve agent prompts based on evaluation results."""
     click.echo("🧬 Evolving agent prompts...")
 
@@ -428,11 +434,18 @@ def evolve(input, reflection, output, iterations, config):
     metadata = results.get("metadata", {})
     agent_type = metadata.get("agent", "claude-code")
 
-    # Get LLM provider from results or config
-    llm_provider = evolve_config.get("llm_provider", "openai")
-    llm_api_key = evolve_config.get("llm_api_key") or os.getenv(f"{llm_provider.upper()}_API_KEY")
+    # Get LLM provider from command line or config
+    if llm_provider == "openai":  # default, check config
+        llm_provider = evolve_config.get("llm_provider", "openai")
+    # llm_api_key param takes precedence, then config, then env
+    llm_api_key = (
+        llm_api_key
+        or evolve_config.get("llm_api_key")
+        or os.getenv(f"{llm_provider.upper()}_API_KEY")
+    )
 
-    if not llm_api_key:
+    is_ollama = llm_provider == "ollama"
+    if not llm_api_key and not is_ollama:
         click.echo(
             f"❌ LLM API key required. Set {llm_provider.upper()}_API_KEY or use --config", err=True
         )

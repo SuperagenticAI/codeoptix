@@ -104,10 +104,10 @@ nav:
     - Performance Testing: guides/performance-testing.md
     - UI Testing: guides/ui-testing.md
   - Advanced:
-    - GEPA Integration: advanced/gepa.md
-    - Bloom Integration: advanced/bloom.md
-    - Error Handling: advanced/error-handling.md
-    - Performance: advanced/performance.md
+     - GEPA Integration: advanced/gepa.md
+     - Bloom Integration: advanced/bloom.md
+     - Error Handling: advanced/error-handling.md
+     - Performance: advanced/performance.md
   - API Reference: api-reference.md
   - Examples:
     - Behavioral Spec Example: examples/behavioral-spec.md

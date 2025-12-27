@@ -65,6 +65,10 @@ When AI coding agents dazzle with impressive code but leave you wondering about 
 
     **Cloud providers** (OpenAI, Anthropic, Google) still require API keys. See [Installation](getting-started/installation/#setting-up-llm-providers) for setup.
 
+### 📋 Open Source Limitations
+
+The open source version provides core evaluation capabilities. Advanced features like agent evolution and optimization have limited support. For full optimization capabilities tailored to your needs, please get in touch.
+
 ---
 
 ## 🚀 Quick Start (30 Seconds)

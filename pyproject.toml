@@ -1,6 +1,6 @@
 [project]
 name = "codeoptix"
-version = "0.1.0"
+version = "0.1.1"
 description = "Agentic Code Optimization & Deep Evaluation for Superior Coding Agent Experience. Built by Superagentic AI."
 readme = "README.md"
 requires-python = ">=3.12"
