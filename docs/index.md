@@ -54,14 +54,15 @@ When AI coding agents dazzle with impressive code but leave you wondering about 
 - ⚡ **CI/CD Integration** - Automated quality gates and GitHub Actions support
 
 !!! tip "Ollama Support - No API Key Required!"
-    **CodeOptiX now supports Ollama** - use local models without API keys:
+    **CodeOptiX supports Ollama** for evaluations - use local models without API keys:
 
     - ✅ **Ollama integration** - Run evaluations with local models
     - ✅ **No API key needed** - Perfect for open-source users
     - ✅ **Privacy-friendly** - All processing happens locally
     - ✅ **Free to use** - No cloud costs
+    - ⚠️ **Limited evolution support** - Use cloud providers for `codeoptix evolve`
 
-    **See [Ollama Integration](guides/ollama-integration/) for setup instructions.**
+    **See [Ollama Integration](guides/ollama-integration/) for setup and limitations.**
 
     **Cloud providers** (OpenAI, Anthropic, Google) still require API keys. See [Installation](getting-started/installation/#setting-up-llm-providers) for setup.
 

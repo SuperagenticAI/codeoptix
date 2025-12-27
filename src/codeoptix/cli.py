@@ -147,7 +147,11 @@ def eval(agent, behaviors, output, config, llm_provider, llm_api_key, context, f
             sys.exit(1)
 
     # Normalize provider name and decide if we need an API key
-    llm_provider = (llm_provider or os.getenv("CODEOPTIX_LLM_PROVIDER", "openai")).lower()
+    llm_provider = (
+        eval_config.get("llm_provider")
+        or llm_provider
+        or os.getenv("CODEOPTIX_LLM_PROVIDER", "openai")
+    ).lower()
     is_ollama = llm_provider == "ollama"
 
     # Create adapter
@@ -222,7 +226,10 @@ def eval(agent, behaviors, output, config, llm_provider, llm_api_key, context, f
         click.echo("🧠 Using local Ollama provider.")
 
     try:
-        llm_client = create_llm_client(llm_provider_enum, api_key=api_key)
+        llm_config = adapter_config["llm_config"]
+        llm_client = create_llm_client(
+            LLMProvider(llm_config["provider"]), llm_config.get("api_key"), llm_config.get("model")
+        )
     except Exception as e:
         click.echo(f"❌ Error: Failed to create LLM client: {e}", err=True)
         if "api_key" in str(e).lower():
@@ -470,9 +477,11 @@ def evolve(input, reflection, output, iterations, config, llm_provider, llm_api_
         adapter = create_adapter(agent_type, adapter_config)
         click.echo(f"✅ Created adapter: {adapter.get_adapter_type()}")
 
-        # Create LLM client
-        llm_provider_enum = LLMProvider[llm_provider.upper()]
-        llm_client = create_llm_client(llm_provider_enum, api_key=llm_api_key)
+        # Create LLM client (use same config as adapter for consistency)
+        llm_config = adapter_config["llm_config"]
+        llm_client = create_llm_client(
+            LLMProvider(llm_config["provider"]), llm_config.get("api_key"), llm_config.get("model")
+        )
 
         # Create evaluation engine
         eval_engine_config = evolve_config.get("evaluation", {})

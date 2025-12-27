@@ -214,7 +214,7 @@ class GoogleClient(LLMClient):
 class OllamaClient(LLMClient):
     """Ollama local model client (http://localhost:11434)."""
 
-    def __init__(self, api_key: str | None = None):
+    def __init__(self, api_key: str | None = None, model: str = "llama3.1", **kwargs: Any):
         """Initialize Ollama client.
 
         api_key is unused but kept for interface compatibility.
@@ -250,7 +250,7 @@ class OllamaClient(LLMClient):
         """Generate a chat completion using a local Ollama model."""
         payload = {
             "model": model,
-            "prompt": messages[0]["content"],  # Use first message content as prompt
+            "prompt": messages[0]["content"],
             "stream": False,
             "options": {
                 "temperature": temperature,
@@ -315,14 +315,16 @@ class OllamaClient(LLMClient):
         return models
 
 
-def create_llm_client(provider: LLMProvider, api_key: str | None = None) -> LLMClient:
+def create_llm_client(
+    provider: LLMProvider, api_key: str | None = None, model: str | None = None
+) -> LLMClient:
     """Factory function to create an LLM client."""
     if provider == LLMProvider.ANTHROPIC:
-        return AnthropicClient(api_key=api_key)
+        return AnthropicClient(api_key=api_key, model=model or "claude-3-5-sonnet-20241022")
     if provider == LLMProvider.OPENAI:
-        return OpenAIClient(api_key=api_key)
+        return OpenAIClient(api_key=api_key, model=model or "gpt-4o")
     if provider == LLMProvider.GOOGLE:
-        return GoogleClient(api_key=api_key)
+        return GoogleClient(api_key=api_key, model=model or "gemini-1.5-pro")
     if provider == LLMProvider.OLLAMA:
-        return OllamaClient(api_key=api_key)
+        return OllamaClient(model=model or "llama3.1")
     raise ValueError(f"Unsupported provider: {provider}")

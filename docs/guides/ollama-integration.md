@@ -300,6 +300,20 @@ export OLLAMA_BASE_URL=http://localhost:11435
 - You need maximum speed
 - You're okay with API costs
 
+### ⚠️ Limitations
+
+While Ollama works great for evaluations, there are some limitations:
+
+#### Evolution Support
+- **Limited support for `codeoptix evolve`**: The evolution feature uses GEPA optimization, which requires processing very long prompts. Ollama may fail with 404 errors or timeouts on complex evolution tasks.
+- **Recommendation**: Use cloud providers (OpenAI, Anthropic, Google) for full evolution capabilities. For basic evolution testing, try smaller models like `llama3.1:8b` with minimal iterations.
+
+#### Performance
+- Large models (e.g., `gpt-oss:120b`) require significant RAM and may be slow on consumer hardware.
+- Evolution tasks are computationally intensive and may not complete reliably with Ollama.
+
+For advanced features like evolution, consider cloud providers or contact us for tailored enterprise solutions.
+
 ---
 
 ## 📚 Next Steps

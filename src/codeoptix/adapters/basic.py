@@ -29,7 +29,7 @@ class BasicAdapter(AgentAdapter):
 
         provider_name = llm_config.get("provider", "ollama")
         self.llm_client: LLMClient = create_llm_client(
-            LLMProvider(provider_name), llm_config.get("api_key")
+            LLMProvider(provider_name), llm_config.get("api_key"), llm_config.get("model")
         )
 
         # Set model
