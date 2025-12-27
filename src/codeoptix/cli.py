@@ -196,33 +196,7 @@ def eval(agent, behaviors, output, config, llm_provider, llm_api_key, context, f
         sys.exit(1)
 
     # Create LLM client for evaluation
-    try:
-        llm_provider_enum = LLMProvider[llm_provider.upper()]
-    except KeyError:
-        click.echo(f"❌ Error: Unsupported LLM provider: {llm_provider}", err=True)
-        click.echo("   Available providers: anthropic, openai, google, ollama", err=True)
-        sys.exit(1)
-
-    # For remote providers, we still require an API key.
-    # For local Ollama, we do NOT require a key and talk to localhost instead.
-    api_key: str | None = None
     if not is_ollama:
-        api_key = llm_api_key or os.getenv(f"{llm_provider.upper()}_API_KEY")
-        if not api_key:
-            click.echo(f"❌ Error: API key required for {llm_provider}", err=True)
-            click.echo(
-                f"   Set {llm_provider.upper()}_API_KEY environment variable or use --llm-api-key",
-                err=True,
-            )
-            click.echo("", err=True)
-            click.echo("💡 Tip: Without an API key, you can use basic static analysis:", err=True)
-            click.echo("   codeoptix lint --path ./src", err=True)
-            click.echo(
-                "   This runs linters (ruff, bandit, flake8, etc.) without requiring API keys.",
-                err=True,
-            )
-            sys.exit(1)
-    else:
         click.echo("🧠 Using local Ollama provider.")
 
     try:
