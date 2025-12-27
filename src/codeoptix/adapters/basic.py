@@ -124,12 +124,12 @@ Please provide your response in the following format:
 
 CODE:
 ```python
-# Your code here
+# Your code here - must be valid Python
 ```
 
 TESTS:
 ```python
-# Your tests here
+# Your tests here - must be valid Python
 ```
 
 EXPLANATION:

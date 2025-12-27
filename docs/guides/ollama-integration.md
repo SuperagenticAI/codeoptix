@@ -1,6 +1,6 @@
 # Ollama Integration Guide
 
-CodeOptiX supports local Ollama models, allowing you to run evaluations without API keys!
+CodeOptiX supports local Ollama models, allowing you to run evaluations without API keys! ✅ **Now working correctly** - generates code and provides proper security evaluations.
 
 ---
 
@@ -11,6 +11,27 @@ CodeOptiX supports local Ollama models, allowing you to run evaluations without 
 - ✅ **Free to use** - No cloud costs
 - ✅ **Works offline** - No internet connection needed
 - ✅ **Flexible models** - Choose from many open-source models
+
+---
+
+## ✅ Recent Updates
+
+**CodeOptiX now works correctly with Ollama!** Recent fixes ensure:
+
+- ✅ Proper code generation (not conversational responses)
+- ✅ Accurate security evaluations (detects real issues)
+- ✅ Meaningful scores (not always 100%)
+- ✅ Full evaluation pipeline support
+
+### 🚀 Try the Demo
+
+Test the Ollama integration with our interactive demo:
+
+```bash
+python examples/ollama_demo.py
+```
+
+This demo shows Ollama generating code, detecting security issues, and providing proper evaluation scores.
 
 ---
 
@@ -140,11 +161,11 @@ export OLLAMA_BASE_URL=http://remote-server:11434
 
 | Model | Size | Speed | Quality | Use Case |
 |-------|------|-------|---------|----------|
-| `llama3.1:8b` | 4.9 GB | ⚡⚡⚡ | ⭐⭐⭐ | Fast, efficient |
-| `qwen3:8b` | 5.2 GB | ⚡⚡⚡ | ⭐⭐⭐ | Alternative 8B |
-| `gpt-oss:120b` | 65 GB | ⚡ | ⭐⭐⭐⭐⭐ | Best quality |
-| `gpt-oss:20b` | 13 GB | ⚡⚡ | ⭐⭐⭐⭐ | Good balance |
-| `llama3.2:3b` | 2.0 GB | ⚡⚡⚡⚡ | ⭐⭐ | Lightweight |
+| `llama3.2:3b` | 2.0 GB | ⚡⚡⚡⚡ | ⭐⭐⭐⭐ | **Best for CodeOptiX** - Fast, reliable code generation |
+| `llama3.1:8b` | 4.9 GB | ⚡⚡⚡ | ⭐⭐⭐ | Good balance, works well |
+| `qwen3:8b` | 5.2 GB | ⚡⚡⚡ | ⭐⭐⭐ | Alternative 8B model |
+| `gpt-oss:20b` | 13 GB | ⚡⚡ | ⭐⭐⭐⭐ | High quality, slower |
+| `gpt-oss:120b` | 65 GB | ⚡ | ⭐⭐⭐⭐⭐ | Best quality, requires powerful hardware |
 
 ### List Available Models
 
@@ -162,7 +183,17 @@ ollama pull <model-name>
 
 ## 💡 Usage Examples
 
-### Example 1: Basic Evaluation
+### Example 1: Try the Interactive Demo ⭐
+
+See Ollama working in action:
+
+```bash
+python examples/ollama_demo.py
+```
+
+This demo shows code generation, security evaluation, and proper scoring.
+
+### Example 2: Basic Evaluation
 
 ```bash
 codeoptix eval \
@@ -171,7 +202,7 @@ codeoptix eval \
   --llm-provider ollama
 ```
 
-### Example 2: With Custom Config
+### Example 3: With Custom Config
 
 ```bash
 codeoptix eval \
@@ -181,7 +212,7 @@ codeoptix eval \
   --llm-provider ollama
 ```
 
-### Example 3: Multiple Behaviors
+### Example 4: Multiple Behaviors
 
 ```bash
 codeoptix eval \
@@ -190,7 +221,7 @@ codeoptix eval \
   --llm-provider ollama
 ```
 
-### Example 4: Verbose Output
+### Example 5: Verbose Output
 
 ```bash
 codeoptix eval \
@@ -200,7 +231,7 @@ codeoptix eval \
   --verbose
 ```
 
-### Example 5: CI/CD Integration
+### Example 6: CI/CD Integration
 
 ```yaml
 # .github/workflows/codeoptix.yml
@@ -300,17 +331,15 @@ export OLLAMA_BASE_URL=http://localhost:11435
 - You need maximum speed
 - You're okay with API costs
 
-### ⚠️ Limitations
-
-While Ollama works great for evaluations, there are some limitations:
+### ⚠️ Known Limitations
 
 #### Evolution Support
-- **Limited support for `codeoptix evolve`**: The evolution feature uses GEPA optimization, which requires processing very long prompts. Ollama may fail with 404 errors or timeouts on complex evolution tasks.
-- **Recommendation**: Use cloud providers (OpenAI, Anthropic, Google) for full evolution capabilities. For basic evolution testing, try smaller models like `llama3.1:8b` with minimal iterations.
+- **Limited support for `codeoptix evolve`**: The evolution feature uses GEPA optimization, which requires processing very long prompts. Ollama may fail with timeouts on complex evolution tasks.
+- **Recommendation**: Use cloud providers (OpenAI, Anthropic, Google) for full evolution capabilities.
 
-#### Performance
-- Large models (e.g., `gpt-oss:120b`) require significant RAM and may be slow on consumer hardware.
-- Evolution tasks are computationally intensive and may not complete reliably with Ollama.
+#### Performance Considerations
+- Large models (e.g., `gpt-oss:120b`) require significant RAM and may be slow on consumer hardware
+- Evolution tasks are computationally intensive and may not complete reliably with Ollama
 
 For advanced features like evolution, consider cloud providers or contact us for tailored enterprise solutions.
 

@@ -31,7 +31,23 @@ python examples/basic_adapter_usage.py
 - Executing tasks with different agents
 - Handling agent outputs
 
-### 3. Behavioral Spec Example (`behavioral_spec_example.py`) ⭐
+### 3. Ollama Local Demo (`ollama_demo.py`) ⭐
+
+**Local Ollama integration demo** showing that CodeOptiX now works correctly with Ollama.
+
+```bash
+python examples/ollama_demo.py
+```
+
+**What it shows:**
+- Ollama code generation working properly
+- Security evaluation detecting real issues
+- Proper scoring (not always 100%)
+- Local, privacy-friendly evaluations
+
+This is the **recommended starting point** for users who want to use CodeOptiX locally with Ollama.
+
+### 4. Behavioral Spec Example (`behavioral_spec_example.py`)
 
 **Complete end-to-end example** demonstrating a real-world behavioral spec scenario.
 
@@ -45,7 +61,7 @@ python examples/behavioral_spec_example.py
 - Real scenario: Database connection with secret management
 - Complete workflow from agent execution to prompt evolution
 
-This is the **recommended starting point** for understanding how CodeOptiX works in practice.
+This is the **recommended starting point** for understanding how CodeOptiX works in practice with cloud providers.
 
 ## Behavioral Spec Scenarios
 
@@ -89,23 +105,35 @@ pip install -e ".[dev,docs]"
 uv sync --dev --extra docs
 ```
 
-2. Set API keys (at least one):
-```bash
-export OPENAI_API_KEY="your-key"
-export ANTHROPIC_API_KEY="your-key"
-export GOOGLE_API_KEY="your-key"
-```
+2. Choose your LLM provider:
+
+   **For local Ollama usage:**
+   ```bash
+   # Install Ollama: https://ollama.com
+   ollama serve  # Start Ollama server
+   ollama pull llama3.2:3b  # Pull a model
+   ```
+
+   **For cloud providers (set at least one API key):**
+   ```bash
+   export OPENAI_API_KEY="your-key"
+   export ANTHROPIC_API_KEY="your-key"
+   export GOOGLE_API_KEY="your-key"
+   ```
 
 ### Run Examples
 
 ```bash
+# Ollama local demo (recommended for local usage)
+python examples/ollama_demo.py
+
 # Quick start with single behavior
 python examples/quickstart-single-behavior.py
 
 # Basic adapter usage
 python examples/basic_adapter_usage.py
 
-# Complete behavioral spec example (recommended)
+# Complete behavioral spec example (recommended for cloud providers)
 python examples/behavioral_spec_example.py
 ```
 

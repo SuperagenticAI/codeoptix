@@ -56,7 +56,7 @@ When AI coding agents dazzle with impressive code but leave you wondering about 
 !!! tip "Ollama Support - No API Key Required!"
     **CodeOptiX supports Ollama** for evaluations - use local models without API keys:
 
-    - ✅ **Ollama integration** - Run evaluations with local models
+    - ✅ **Working Ollama integration** - Generates code and provides proper security evaluations
     - ✅ **No API key needed** - Perfect for open-source users
     - ✅ **Privacy-friendly** - All processing happens locally
     - ✅ **Free to use** - No cloud costs
