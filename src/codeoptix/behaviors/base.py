@@ -2,11 +2,11 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 
-class Severity(str, Enum):
+class Severity(StrEnum):
     """Severity levels for behavior violations."""
 
     LOW = "low"

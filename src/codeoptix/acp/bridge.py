@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 class ACPQualityBridge:
     """CodeOptiX as a quality bridge between editor and agents via ACP."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0917
         self,
         agent_command: list[str] | None = None,
         agent_name: str | None = None,

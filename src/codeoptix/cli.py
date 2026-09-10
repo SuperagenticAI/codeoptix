@@ -57,7 +57,7 @@ def main():
 @click.option(
     "--fail-on-failure", is_flag=True, help="Exit with non-zero code if any behavior fails"
 )
-def eval(agent, behaviors, output, config, llm_provider, llm_api_key, context, fail_on_failure):
+def eval(agent, behaviors, output, config, llm_provider, llm_api_key, context, fail_on_failure):  # noqa: PLR0917
     """Evaluate agent against behavior specifications."""
     import sys
 
@@ -358,7 +358,7 @@ def reflect(input, output, agent_name):
     help="LLM provider for evolution (anthropic, openai, google, ollama)",
 )
 @click.option("--llm-api-key", help="API key for LLM (or set environment variable)")
-def evolve(input, reflection, output, iterations, config, llm_provider, llm_api_key):
+def evolve(input, reflection, output, iterations, config, llm_provider, llm_api_key):  # noqa: PLR0917
     """Evolve agent prompts based on evaluation results."""
     click.echo("🧬 Evolving agent prompts...")
 
@@ -613,7 +613,7 @@ def run(agent, behaviors, evolve, config):
     type=click.Choice(["json", "summary"]),
     help="Output format (default: json)",
 )
-def ci(agent, behaviors, config, llm_provider, llm_api_key, fail_on_failure, output_format):
+def ci(agent, behaviors, config, llm_provider, llm_api_key, fail_on_failure, output_format):  # noqa: PLR0917
     """
     Run CodeOptiX in CI/CD mode.
 
@@ -796,7 +796,7 @@ def _get_install_command(linter_name: str) -> str | None:
     "--no-auto-detect", is_flag=True, help="Disable auto-detection of language and linters"
 )
 @click.option("--list-linters", is_flag=True, help="List all available linters and exit")
-def lint(path, linters, output, fail_on_issues, no_auto_detect, list_linters):
+def lint(path, linters, output, fail_on_issues, no_auto_detect, list_linters):  # noqa: PLR0917
     """
     Run linters on code (no API key required).
 
@@ -1023,7 +1023,7 @@ def lint(path, linters, output, fail_on_issues, no_auto_detect, list_linters):
 @click.option(
     "--no-auto-detect", is_flag=True, help="Disable auto-detection of language and linters"
 )
-def check(base, head, linters, output, fail_on_issues, no_auto_detect):
+def check(base, head, linters, output, fail_on_issues, no_auto_detect):  # noqa: PLR0917
     """
     Check code changes in git (no API key required).
 

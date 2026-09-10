@@ -1,11 +1,11 @@
 """Base classes for linter integration."""
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 
-class Severity(str, Enum):
+class Severity(StrEnum):
     """Issue severity levels."""
 
     CRITICAL = "critical"

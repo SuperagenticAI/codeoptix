@@ -40,7 +40,7 @@ class ACPAgentRegistry:
         self._connections: dict[str, ClientSideConnection] = {}
         self._sessions: dict[str, str] = {}  # agent_name -> session_id
 
-    def register(
+    def register(  # noqa: PLR0917
         self,
         name: str,
         command: list[str],

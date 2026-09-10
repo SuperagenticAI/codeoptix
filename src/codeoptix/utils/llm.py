@@ -5,7 +5,7 @@ import os
 import urllib.error
 import urllib.request
 from abc import ABC, abstractmethod
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 import anthropic
@@ -13,7 +13,7 @@ import openai
 from google import genai
 
 
-class LLMProvider(str, Enum):
+class LLMProvider(StrEnum):
     """Supported LLM providers."""
 
     ANTHROPIC = "anthropic"

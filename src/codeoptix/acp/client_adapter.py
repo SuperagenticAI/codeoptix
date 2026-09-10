@@ -239,7 +239,7 @@ class _ACPClientImpl(Client):
             logger.error(f"Error reading file {path}: {e}")
             raise RequestError.internal_error(f"Failed to read file: {e}")
 
-    async def create_terminal(
+    async def create_terminal(  # noqa: PLR0917
         self,
         command: str,
         session_id: str,

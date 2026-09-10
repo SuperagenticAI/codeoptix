@@ -169,7 +169,7 @@ Provide ONLY the improved prompt text, without additional explanation or markdow
         # Look for text between markers
         if "Current" in response and "Improved" in response:
             # Try to extract after "Improved" marker
-            improved_section = response.split("Improved")[-1]
+            improved_section = response.rsplit("Improved", maxsplit=1)[-1]
             # Take first substantial paragraph
             lines = [l.strip() for l in improved_section.split("\n") if l.strip()]
             if lines:
