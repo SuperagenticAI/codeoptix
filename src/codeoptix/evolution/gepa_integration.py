@@ -5,6 +5,13 @@ GEPA's InstructionProposalSignature component for prompt evolution.
 
 Note: This is NOT a full GEPA framework integration. We're using GEPA's proven
 instruction proposal mechanism rather than the complete GEPA optimization engine.
+
+GEPA 0.1.x notes:
+- InstructionProposalSignature placeholders are ``<curr_param>`` and ``<side_info>``
+  (renamed from ``<curr_instructions>`` / ``<inputs_outputs_feedback>`` in 0.0.x).
+- Custom ``prompt_template`` values must include those 0.1.x placeholders.
+- LanguageModel may receive either a string prompt or a multimodal messages list;
+  CodeOptiX only feeds text feedback today, so the string path is the common case.
 """
 
 from typing import Any
@@ -25,7 +32,8 @@ class MinimalGEPAProposer:
 
         Args:
             llm_client: LLM client compatible with GEPA's LanguageModel interface
-            config: Configuration dictionary
+            config: Configuration dictionary. Optional ``prompt_template`` must use
+                GEPA 0.1.x placeholders ``<curr_param>`` and ``<side_info>``.
         """
         self.llm_client = llm_client
         self.config = config or {}
@@ -118,8 +126,7 @@ class MinimalGEPAProposer:
         """
         Wrap CodeOptiX LLM client to GEPA's LanguageModel interface.
 
-        GEPA expects a LanguageModel Protocol with a __call__ method that takes
-        a prompt string and returns a string response.
+        GEPA 0.1.x LanguageModel accepts ``str | list[dict]`` and returns a string.
         """
 
         class GEPALLMWrapper:
@@ -130,16 +137,20 @@ class MinimalGEPAProposer:
                 if hasattr(llm_client, "config") and isinstance(llm_client.config, dict):
                     self.default_model = llm_client.config.get("model", self.default_model)
 
-            def __call__(self, prompt: str) -> str:
+            def __call__(self, prompt: str | list[dict[str, Any]]) -> str:
                 """
                 Generate response using CodeOptiX LLM client.
 
-                This implements GEPA's LanguageModel Protocol:
-                - Takes a prompt string
-                - Returns a string response
+                Implements GEPA's LanguageModel Protocol for both string prompts
+                and OpenAI-style multimodal message lists.
                 """
+                if isinstance(prompt, str):
+                    messages: list[dict[str, Any]] = [{"role": "user", "content": prompt}]
+                else:
+                    messages = prompt
+
                 response = self.llm_client.chat_completion(
-                    messages=[{"role": "user", "content": prompt}],
+                    messages=messages,
                     model=self.default_model,
                     temperature=0.7,
                 )
