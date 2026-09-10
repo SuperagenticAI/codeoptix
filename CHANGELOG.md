@@ -10,13 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
-- Upgraded GEPA dependency from `gepa==0.0.22` to `gepa==0.1.4`.
-  CodeOptiX continues to use GEPA's `InstructionProposalSignature` for reflective
-  prompt proposals. GEPA 0.1.x renames default template placeholders to
-  `<curr_param>` and `<side_info>` (from `<curr_instructions>` /
-  `<inputs_outputs_feedback>`). Custom `prompt_template` configs must use the
-  new placeholders. The MinimalGEPAProposer LLM wrapper now accepts both string
-  prompts and multimodal message lists to match GEPA 0.1.x LanguageModel.
 
 ### Deprecated
 
@@ -25,6 +18,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [0.1.4] - 2026-09-10
+
+### Changed
+- Upgraded GEPA dependency from `gepa==0.0.22` to `gepa==0.1.4`.
+  CodeOptiX continues to use GEPA's `InstructionProposalSignature` for reflective
+  prompt proposals. GEPA 0.1.x renames default template placeholders to
+  `<curr_param>` and `<side_info>` (from `<curr_instructions>` /
+  `<inputs_outputs_feedback>`). Custom `prompt_template` configs must use the
+  new placeholders. The MinimalGEPAProposer LLM wrapper now accepts both string
+  prompts and multimodal message lists to match GEPA 0.1.x LanguageModel.
 
 ## [0.1.3] - 2025-12-27
 
